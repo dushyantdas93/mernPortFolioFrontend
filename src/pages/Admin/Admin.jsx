@@ -26,6 +26,7 @@ import Menubar from "../user/Menubar";
 
 const Admin = () => {
   const [menu, setMenu] = useState(false); // Handle menu state for mobile
+
   return (
     <div>
       <Navbar menu={menu} setMenu={setMenu} />

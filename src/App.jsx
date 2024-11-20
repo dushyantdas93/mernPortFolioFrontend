@@ -15,6 +15,11 @@ import UpdateCompletion from "./pages/Admin/UpdateCompletion.jsx";
 import UpdateWork from "./pages/Admin/UpdateWork.jsx";
 import UpdatePricingPlane from "./pages/Admin/UpdatePricingPlane.jsx";
 import Messages from "./pages/Admin/Messages.jsx";
+import Private from "./Route/Private.jsx";
+import PageNotFound from "./pages/PageNotFound.jsx";
+import UpdateClientReview from "../../UpdateClientReview.jsx";
+import UpdatePost from "./pages/Admin/UpdatePost.jsx";
+
 
 
 const App = () => {
@@ -22,22 +27,32 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<User />} />
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/admin/updateProfile" element={<UpdateProfile />} />
-      <Route path="/admin/updateAboutMe" element={<UpdateAboutMe />} />
-      <Route path="/admin/updateServices" element={<UpdateServices />} />
-      <Route path="/admin/updateCompletion" element={<UpdateCompletion />} />
-      <Route path="/admin/updateWork" element={<UpdateWork />} />
+      <Route path="/admin" element={<Private />} >
+      <Route path="" element={<Admin />} /> 
+      
+      <Route path="updateProfile" element={<UpdateProfile />} />
+      <Route path="updateAboutMe" element={<UpdateAboutMe />} />
+      <Route path="updateServices" element={<UpdateServices />} />
+      <Route path="updateCompletion" element={<UpdateCompletion />} />
+      <Route path="updatePost" element={<UpdatePost />} />
+      <Route path="updateClientReview" element={<UpdateClientReview />} />
+
+      <Route path="updateWork" element={<UpdateWork />} />
       <Route
-        path="/admin/updatePricingPlane"
+        path="updatePricingPlane"
         element={<UpdatePricingPlane />}
       />
-      <Route path="/admin/messages" element={<Messages />} />
+      <Route path="messages" element={<Messages />} />
+      </Route>
+     
 
-      <Route path="/login" element={<Login />} />
+      
+
       {/* <Route path="login" element={<AboutMe/>}/> */}
 
+      <Route path="/login" element={<Login />} />
       <Route path="/reset" element={<Reset />} />
+      <Route path="/*" element={<PageNotFound/>} />
     </Routes>
   );
 };

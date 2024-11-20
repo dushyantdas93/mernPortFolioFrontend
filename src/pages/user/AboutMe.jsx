@@ -1,8 +1,13 @@
 import React from "react";
 import favicon from "/images/dushyant.jpg";
 import bg from "/images/dots-bg-light.svg";
+import Button from "../../components/Button";
+import EditDelete from "../../components/EditDelete";
+import { useAuth } from "../../context/auth";
+
 
 const AboutMe = () => {
+  const [auth,setAuth] = useAuth()
   // Function to determine the background color based on percentage
   const getColor = (percent) => {
     if (percent >= 0 && percent <= 20) {
@@ -26,10 +31,16 @@ const AboutMe = () => {
 
   return (
     <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 text-gray-600 ">
+
+      <div className="flex   justify-between">
       <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 flex relative text-gray-600">
         <img src={bg} alt="" className="absolute -left-5 " /> About Me
       </h1>
-      <div className="flex flex-col lg:flex-row items-center justify-around w-full h-full gap-10">
+  {auth ? <Button url={"/admin/updateAboutMe"}/> : " "}
+      </div>
+      <div className="relative" >
+      {auth ? <EditDelete /> : ''}
+      <div className="flex flex-col lg:flex-row items-center justify-around w-full h-full gap-10 ">
         <img
           src={favicon}
           alt=""
@@ -86,6 +97,7 @@ const AboutMe = () => {
             </div>
           );
         })}
+      </div>
       </div>
     </div>
   );

@@ -3,10 +3,18 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 
+import { UseHook } from "../Customhook/UseHook";
+import { useAuth } from "../context/auth";
+
+
 const Login = () => {
   const navigate = useNavigate(); // To navigate to other pages
+  const url = "auth/login"
+  const [auth,setAuth] = useAuth()
+  
 
   // Yup Validation Schema
+// 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email address")
@@ -26,7 +34,17 @@ const Login = () => {
   // Handle Form Submission
   const handleSubmit = (values) => {
     console.log("Form Submitted:", values);
-    // Perform login logic or API call here
+    const res = UseHook(url,values)
+    if(res){
+      
+        navigate("/admin/")
+
+      
+      // localStorage.setItem("auth",JSON.stringify(res.data))
+
+    }
+
+    
   };
 
   return (

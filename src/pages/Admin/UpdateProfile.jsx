@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({open,setOpen}) => {
   const [showPassword, setShowPassword] = useState(false); // Toggle change password field
 
   // Validation Schema
@@ -45,13 +45,15 @@ const UpdateProfile = () => {
     console.log("Form Submitted:", values);
     alert("Form submitted successfully!");
   };
+  console.log(open)
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className={`${ open ? " fixed " : "hidden "}   flex flex-col items-center justify-center min-h-screen bg-gray-100`}>
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Update Profile
         </h2>
+        <h1 className="absolute top-5 right-10 font-semibold" onClick={()=>setOpen(false)}>X</h1>
         <Formik
           initialValues={{
             name: "",

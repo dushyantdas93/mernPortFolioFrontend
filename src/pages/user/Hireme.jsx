@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import favicon from "/images/dushyant.jpg";
 import { FaInstagram } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
@@ -7,9 +7,24 @@ import { FaMedium } from "react-icons/fa6";
 
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-scroll";
+import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button";
+import UpdateProfile from "../Admin/UpdateProfile";
+
+
 // import { BsMouse } from "react-icons/bs";
 
 const Hireme = () => {
+  const [auth,setAuth] = useAuth()
+  const navigate = useNavigate()
+
+  const [open,setOpen] = useState(false)
+  useEffect(()=>{
+
+    console.log(auth)
+  },[])
+
   const icons = [
     {
       socalIcon: FaInstagram,
@@ -35,6 +50,8 @@ const Hireme = () => {
   return (
     <div className=" w-full  flex  flex-col justify-center lg:justify-around  items-center    py-10  h-full lg:h-auto bg-gray-200 text-gray-600">
       <div className=" w-full lg:w-1/3 flex flex-col items-center pt-16  gap-4 lg:gap-6 ">
+ 
+    
         <img
           src={favicon}
           alt=""
@@ -57,8 +74,8 @@ const Hireme = () => {
             </a>
           ))}
         </div>
-        <button className="bg-red-500  px-4 py-1 rounded-full font-semibold lg:text-xl lg:px-6 lg:py-2 text-white">
-          Hire me{" "}
+        <button className="bg-red-500  px-4 py-1 rounded-full font-semibold lg:text-xl lg:px-6 lg:py-2 text-white" onClick={()=>{auth ? navigate("updateProfile") : navigate("/")}}>
+         {!auth ? " Hire me" : "Update"}
         </button>
       </div>
       {/* <div className="flex flex-col items-center">
@@ -66,6 +83,7 @@ const Hireme = () => {
               <BsMouse size={32} />
              
       </div> */}
+      
     </div>
   );
 };
