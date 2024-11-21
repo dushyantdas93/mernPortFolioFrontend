@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const EditDelete = ({className}) => {
   // State to manage dropdown visibility
   const [isOpen, setIsOpen] = useState(false);
+
   
   // Reference to the dropdown to handle clicking outside of it
   const dropdownRef = useRef(null);
+
 
   // Toggle dropdown visibility
   const toggleDropdown = () => {
@@ -46,21 +49,21 @@ const EditDelete = ({className}) => {
         <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             {/* Edit Option */}
-            <a
-              href="#"
+            <h1
+             
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               onClick={() => console.log('Edit clicked')}
             >
               Edit
-            </a>
+            </h1>
             {/* Delete Option */}
-            <a
-              href="#"
+            <Link
+              to="/admin"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               onClick={() => console.log('Delete clicked')}
             >
               Delete
-            </a>
+            </Link>
           </div>
         </div>
       )}

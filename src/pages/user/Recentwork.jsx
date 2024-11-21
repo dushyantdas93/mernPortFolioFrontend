@@ -6,9 +6,8 @@ import { useAuth } from "../../context/auth";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
 
-
 const Recentwork = () => {
-  const [auth,setAuth] = useAuth()
+  const [auth, setAuth] = useAuth();
   const card = [
     {
       img: client5,
@@ -66,12 +65,12 @@ const Recentwork = () => {
 
   return (
     <div className="w-full lg:w-4/6 mx-auto flex flex-col lg:px-6 justify-around gap-10 py-6">
-      <div className="flex justify-between">
-      <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 relative">
-        <img src={bg} alt="" className="absolute -left-2 lg:-left-5 " />
-        Recent Works
-      </h1>
-      { auth ? <Button url={"/admin/updateWork"}/> : ""}
+      <div className="flex justify-between items-center">
+        <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 relative">
+          <img src={bg} alt="" className="absolute -left-2 lg:-left-5 " />
+          Recent Works
+        </h1>
+        {auth?.token ? <Button url={"/admin/updateWork"} /> : ""}
       </div>
 
       <div className="w-full px-6">
@@ -121,12 +120,15 @@ const Recentwork = () => {
                 alt={item.heading}
                 className=" rounded-lg w-full h-full object-cover transform transition duration-500 ease-in-out group-hover:blur-xm"
               />
-              
             </div>
 
             {/* Content to display on hover */}
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out ">
-            {auth ? <EditDelete className={"absolute -top-16 -right-24"}/> : ''}
+              {auth?.token ? (
+                <EditDelete className={"absolute -top-16 -right-24"} />
+              ) : (
+                ""
+              )}
               <span className="text-sm  absolute -top-1 rounded-full left-4 border bg-red-300 text-white px-4 ">
                 {item.category}
               </span>
