@@ -2,12 +2,50 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../context/auth";
+import { Usecloudinary } from "../../components/UseCloudinary";
+
 
 const CreateProfile = () => {
   const [auth,setAuth] = useAuth()
   const [showPassword, setShowPassword] = useState(false); // Toggle change password field
+  const [url, setUrl] = useState('');
+
+  const saveImage = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "jayxtlmw");
+    data.append("cloud_name", "dywltditz");
+
+    try {
+      if (!file) {
+        return toast.error("Please upload an image");
+      }
+
+      const res = await fetch('https://api.cloudinary.com/v1_1/dywltditz/image/upload', {
+        method: "POST",
+        body: data
+      });
+
+      const cloudData = await res.json();
+      setUrl(cloudData.url);
+      handleImage(url)
+      // console.log(cloudData.url);
+      // toast.success("Image uploaded successfully");
+    } catch (error) {
+      // toast.error("Failed to upload the image");
+      console.error("Error uploading image:", error);
+    }
+  };
 
 const update = auth?.user
+
+
+
+const handleImage = (imageUrl)=>{
+  console.log(imageUrl)
+}
+
+
   
   console.log(auth?.user)
   // Validation Schema
@@ -77,7 +115,7 @@ const update = auth?.user
             github: update?.github,
             linkedin: update?.linkedin,
             password: "",
-            image: "",
+            image: update?.image,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -208,11 +246,11 @@ const update = auth?.user
                   id="image"
                   name="image"
                   accept="image/*"
-                  onChange={(event) => {
-                    setFieldValue("image", event.target.files[0]);
-                  }}
+                  onClick={()=>saveImage}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                 />
+               
+              
                 <ErrorMessage
                   name="image"
                   component="div"

@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 
-import { UseHook } from "../Customhook/UseHook";
+import { UsePost } from "../Customhook/UsePost";
 import { useAuth } from "../context/auth";
 
 
@@ -34,7 +34,7 @@ const Login = () => {
   // Handle Form Submission
   const handleSubmit = (values) => {
     console.log("Form Submitted:", values);
-    const res = UseHook(url,values)
+    const res = UsePost(url,values)
     if(res){
       
         navigate("/admin/")
