@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { UsePost } from "../Customhook/UsePost";
 import { useAuth } from "../context/auth";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 const Login = () => {
@@ -32,12 +34,25 @@ const Login = () => {
   });
 
   // Handle Form Submission
-  const handleSubmit = (values) => {
-    console.log("Form Submitted:", values);
-    const res = UsePost(url,values)
+  const handleSubmit = async (values) => {
+    // console.log("Form Submitted:", values);
+    // const res = UsePost(url,values)
+    const res = await axios.post(
+      `http://localhost:8080/api/v1/auth/login`,
+      values
+  );
+  if (res && res.data.success) {
+      toast.success(res.data.message);
+      console.log(res,"response from the logun")
+    setAuth({user: res.data.user, token: res.data.token })
+    localStorage.setItem("auth",JSON.stringify(res.data))   
+    
+  } else {
+      toast.error(res.data.message);
+  }
     if(res){
       
-        navigate("/admin/")
+        navigate("/admin")
 
       
       // localStorage.setItem("auth",JSON.stringify(res.data))

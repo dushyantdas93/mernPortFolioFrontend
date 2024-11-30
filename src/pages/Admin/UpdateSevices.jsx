@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CloseModal from "../../components/CloseModal";
+import ClosePage from "../../components/ClosePage";
+
+
 
 const UpdateServices = () => {
+  const location = useLocation();
+  const {serviceId} = useParams()
+  const { state } = location;
+
+  useEffect(()=>{
+    if(!state){
+      // call api
+    }
+
+  },[serviceId])
   // Validation schema
   const validationSchema = Yup.object({
     img: Yup.mixed()
@@ -32,17 +47,20 @@ const UpdateServices = () => {
     alert("Service updated successfully!");
   };
 
+  const navigate = useNavigate()
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative">
+      <ClosePage/>
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Update Services
         </h2>
         <Formik
           initialValues={{
-            img: null,
-            name: "",
-            description: "",
+            img: state?.img,
+            name: state?.heading,
+            description:  state?.para,
             recommended: "",
           }}
           validationSchema={validationSchema}

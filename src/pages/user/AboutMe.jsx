@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import favicon from "/images/dushyant.jpg";
 import bg from "/images/dots-bg-light.svg";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
 import { useAuth } from "../../context/auth";
+import CreateAboutMe from "../Admin/CreateAboutMe";
 
 const AboutMe = () => {
   const [auth, setAuth] = useAuth();
+  const [open,setOpen] = useState(false)
   // Function to determine the background color based on percentage
+  useEffect(()=>{
+    // console.log("auth from aboutme: ",auth);
+    console.log("locastorage: ",localStorage.getItem("auth"));
+  },[auth])
   const getColor = (percent) => {
     if (percent >= 0 && percent <= 20) {
       return "bg-red-500"; // Low percent, red color
@@ -36,9 +42,10 @@ const AboutMe = () => {
         <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 flex relative text-gray-600">
           <img src={bg} alt="" className="absolute -left-5 " /> About Me
         </h1>
-        {auth?.token ? <Button url={"/admin/updateAboutMe"} /> : " "}
+        {auth?.token ? <Button onClick={()=>setOpen(true)} /> : " "}
       </div>
       <div className="relative">
+        {open ? <CreateAboutMe setOpen={setOpen}/> : " "}
         <div className="flex flex-col lg:flex-row items-center justify-around w-full h-full gap-10 ">
           <img
             src={favicon}
@@ -46,13 +53,13 @@ const AboutMe = () => {
             className="lg:size-32 drop-shadow-2xl rounded-full"
           />
           <div className="w-[90%] lg:w-[70%] border border-gray-300 flex flex-col lg:flex-row rounded-lg px-6 h-auto lg:gap-5 shadow- ralative">
-            {/* {auth?.token ? (
-              <EditDelete className={"absolute top-2 left-64 lg:left-0"} />
+            {auth?.token ? (
+              <EditDelete url={'updateAboutMe'}  className={"absolute top-2 left-64 lg:left-0"} />
             ) : (
               ""
-            )} */}
+            )}
 
-            {auth?.token ? (<h1>edit</h1>) : ''} 
+          
             <div className="w-full lg:w-1/2 py-6 flex flex-col gap-5 ">
               <p className="">
                 I am Dushyant manikpuri, web developer from Bhilai,

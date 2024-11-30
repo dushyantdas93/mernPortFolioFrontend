@@ -14,7 +14,7 @@ const Menubar = ({ menu, setMenu }) => {
   // Handles closing the menu on click (for mobile views)
   const navigate = useNavigate();
   const [auth, setAuth] = useAuth();
-  console.log(auth);
+  // console.log(auth);
   const handleLinkClick = () => {
     if (menu) {
       setMenu(false); // Closes the menu if it's open
@@ -58,7 +58,7 @@ const Menubar = ({ menu, setMenu }) => {
             !auth?.token ? navigate("/login") : navigate("/admin");
           }}
         >
-          {!auth?.token ? "Portfolio" : "dushyant"}
+          {!auth?.token ? "Portfolio" : auth?.user?.name}
         </h1>
       </div>
       <div className="lg:flex flex-col p-6 lg:py-10 gap-10 capitalize ">

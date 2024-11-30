@@ -1,69 +1,101 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import ClosePage from "../../components/ClosePage";
+import CloseModal from "../../components/CloseModal";
 
-const UpdatePricingPlan = () => {
+const CreateCompletion = ({setOpen}) => {
   // Validation Schema
   const validationSchema = Yup.object({
-    category: Yup.string().required("Category is required"),
+    yearOfCompletion: Yup.string()
+      .matches(
+        /^(19|20)\d{2}$/,
+        "Must be a valid year (e.g., 2000) or 'Present'"
+      )
+      .nullable()
+      .when("isPresent", {
+        is: false,
+        then: Yup.string().required("Year of Completion is required"),
+      }),
+    isPresent: Yup.boolean(),
     name: Yup.string()
       .min(3, "Name must be at least 3 characters")
       .required("Name is required"),
-    description: Yup.string().required("Description is required"),
-    price: Yup.number()
-      .positive("Price must be a positive number")
-      .required("Price is required"),
-    supports: Yup.string().required("Supports field is required"),
+    description: Yup.string()
+      .min(20, "Description must be at least 20 characters")
+      .required("Description is required"),
+    percentage: Yup.number()
+      .min(0, "Percentage must be at least 0")
+      .max(100, "Percentage cannot exceed 100")
+      .required("Percentage is required"),
   });
 
-  // Handle form submission
+  // Handle Form Submission
   const handleSubmit = (values) => {
     console.log("Form Values:", values);
-    alert("Pricing plan updated successfully!");
+    alert("Form submitted successfully!");
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative">
-      <ClosePage/>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 absolute top-10 right-10">
+        <CloseModal setOpen={setOpen}/>
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Update Pricing Plan
+          Completion Form
         </h2>
         <Formik
           initialValues={{
-            category: "",
+            yearOfCompletion: "",
+            isPresent: false,
             name: "",
             description: "",
-            price: "",
-            supports: "",
+            percentage: "",
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {() => (
+          {({ values, setFieldValue }) => (
             <Form>
-              {/* Category Dropdown */}
+              {/* Year of Completion */}
               <div className="mb-4">
-                <label htmlFor="category" className="block text-gray-700">
-                  Category
+                <label
+                  htmlFor="yearOfCompletion"
+                  className="block text-gray-700"
+                >
+                  Year of Completion
                 </label>
                 <Field
-                  as="select"
-                  name="category"
-                  id="category"
+                  type="text"
+                  name="yearOfCompletion"
+                  id="yearOfCompletion"
                   className="w-full px-4 py-2 border rounded-lg"
-                >
-                  <option value="">Select a category</option>
-                  <option value="basic">Basic</option>
-                  <option value="standard">Standard</option>
-                  <option value="premium">Premium</option>
-                </Field>
+                  placeholder="e.g., 2024 or Present"
+                  disabled={values.isPresent}
+                />
                 <ErrorMessage
-                  name="category"
+                  name="yearOfCompletion"
                   component="div"
                   className="text-red-500 text-sm mt-1"
                 />
+              </div>
+
+              {/* Present Checkbox */}
+              <div className="mb-4">
+                <label className="inline-flex items-center text-gray-700">
+                  <Field
+                    type="checkbox"
+                    name="isPresent"
+                    className="mr-2"
+                    onChange={(e) => {
+                      setFieldValue("isPresent", e.target.checked);
+                      if (e.target.checked) {
+                        setFieldValue("yearOfCompletion", "Present");
+                      } else {
+                        setFieldValue("yearOfCompletion", "");
+                      }
+                    }}
+                  />
+                  Currently Ongoing
+                </label>
               </div>
 
               {/* Name */}
@@ -104,39 +136,20 @@ const UpdatePricingPlan = () => {
                 />
               </div>
 
-              {/* Price */}
+              {/* Percentage */}
               <div className="mb-4">
-                <label htmlFor="price" className="block text-gray-700">
-                  Price
+                <label htmlFor="percentage" className="block text-gray-700">
+                  Percentage
                 </label>
                 <Field
                   type="number"
-                  name="price"
-                  id="price"
+                  name="percentage"
+                  id="percentage"
                   className="w-full px-4 py-2 border rounded-lg"
-                  placeholder="Enter price"
+                  placeholder="Enter percentage (0-100)"
                 />
                 <ErrorMessage
-                  name="price"
-                  component="div"
-                  className="text-red-500 text-sm mt-1"
-                />
-              </div>
-
-              {/* Supports */}
-              <div className="mb-4">
-                <label htmlFor="supports" className="block text-gray-700">
-                  Supports
-                </label>
-                <Field
-                  type="text"
-                  name="supports"
-                  id="supports"
-                  className="w-full px-4 py-2 border rounded-lg"
-                  placeholder="Enter supports"
-                />
-                <ErrorMessage
-                  name="supports"
+                  name="percentage"
                   component="div"
                   className="text-red-500 text-sm mt-1"
                 />
@@ -147,7 +160,7 @@ const UpdatePricingPlan = () => {
                 type="submit"
                 className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
               >
-                Update Plan
+                Submit
               </button>
             </Form>
           )}
@@ -157,4 +170,4 @@ const UpdatePricingPlan = () => {
   );
 };
 
-export default UpdatePricingPlan;
+export default CreateCompletion;

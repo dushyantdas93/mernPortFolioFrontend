@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const EditDelete = ({className}) => {
+const EditDelete = ({url,item,className}) => {
   // State to manage dropdown visibility
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate()
 
   
   // Reference to the dropdown to handle clicking outside of it
@@ -52,7 +53,9 @@ const EditDelete = ({className}) => {
             <h1
              
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => console.log('Edit clicked')}
+              onClick={() =>{
+navigate(`/admin/${url}/${item?._id}`,{ state:item})
+              }}
             >
               Edit
             </h1>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import ClosePage from '../../components/ClosePage';
+import CloseModal from '../../components/CloseModal';
 
 const validationSchema = Yup.object({
   imageDescription: Yup.string().required('Image description is required'),
@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
     .min(new Date(), "Date cannot be in the past"), // Optional: ensures date isn't in the past
 });
 
-const UpdatePost = () => {
+const CreatePost = ({setOpen}) => {
   const formik = useFormik({
     initialValues: {
       imageDescription: '',
@@ -28,8 +28,8 @@ const UpdatePost = () => {
   });
 
   return (
-    <div className="w-full max-w-md mx-auto relative">
-      <ClosePage/>
+    <div className="w-full max-w-md mx-auto absolute top-10 right-10">
+        <CloseModal  setOpen={setOpen}/>
       <h1 className="text-xl font-bold mb-4">Form with Validation</h1>
       <form onSubmit={formik.handleSubmit}>
         {/* Image Description Field */}
@@ -101,4 +101,4 @@ const UpdatePost = () => {
   );
 };
 
-export default UpdatePost;
+export default CreatePost;

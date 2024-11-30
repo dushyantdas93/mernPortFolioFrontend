@@ -5,6 +5,7 @@ import { MdOutlineReadMore } from "react-icons/md";
 import { useAuth } from "../../context/auth";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
+import CreateWork from "../Admin/CreateWork";
 
 const Recentwork = () => {
   const [auth, setAuth] = useAuth();
@@ -62,15 +63,16 @@ const Recentwork = () => {
             item.category.toLowerCase() === selectedCategory.toLowerCase()
         )
       : card; // Show all cards if "Everything" or no category is selected
-
+const [open,setOpen] =useState(false)
   return (
-    <div className="w-full lg:w-4/6 mx-auto flex flex-col lg:px-6 justify-around gap-10 py-6">
+    <div className="w-full lg:w-4/6 mx-auto flex flex-col lg:px-6 justify-around gap-10 py-6 relative">
+     {open ?  <CreateWork setOpen={setOpen}/> : " "}
       <div className="flex justify-between items-center">
         <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 relative">
           <img src={bg} alt="" className="absolute -left-2 lg:-left-5 " />
           Recent Works
         </h1>
-        {auth?.token ? <Button url={"/admin/updateWork"} /> : ""}
+        {auth?.token ? <Button onClick={()=>setOpen(true)} /> : ""}
       </div>
 
       <div className="w-full px-6">
@@ -125,7 +127,7 @@ const Recentwork = () => {
             {/* Content to display on hover */}
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out ">
               {auth?.token ? (
-                <EditDelete className={"absolute -top-16 -right-24"} />
+                <EditDelete className={"absolute -top-16 -right-24"} url={"updateWork"} />
               ) : (
                 ""
               )}

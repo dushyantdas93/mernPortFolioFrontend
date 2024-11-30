@@ -3,12 +3,15 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../context/auth";
 import { Usecloudinary } from "../../components/UseCloudinary";
+import ClosePage from "../../components/ClosePage";
+import { useNavigate } from "react-router-dom";
 
 
 const CreateProfile = () => {
   const [auth,setAuth] = useAuth()
   const [showPassword, setShowPassword] = useState(false); // Toggle change password field
   const [url, setUrl] = useState('');
+  const navigate = useNavigate()
 
   const saveImage = async (file) => {
     const data = new FormData();
@@ -94,8 +97,9 @@ const handleImage = (imageUrl)=>{
     <div
       className={`${
         open ? " fixed " : "hidden "
-      }   flex flex-col items-center justify-center min-h-screen bg-gray-100`}
+      }   flex flex-col items-center justify-center min-h-screen bg-gray-100 relative`}
     >
+      <ClosePage  />
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Update Profile

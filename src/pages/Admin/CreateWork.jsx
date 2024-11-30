@@ -3,9 +3,9 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import ClosePage from "../../components/ClosePage";
+import CloseModal from "../../components/CloseModal";
 
-const UpdateWork = () => {
+const CreateWork = ({setOpen}) => {
   // Validation Schema
   const validationSchema = Yup.object({
     screenshot: Yup.mixed()
@@ -31,8 +31,8 @@ const UpdateWork = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative">
-      <ClosePage/>
+    <div className="flex flex-col items-center justify-center min-h-screen  absolute top-10 right-10">
+        <CloseModal setOpen={setOpen}/>
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Screenshot Form
@@ -147,5 +147,5 @@ const UpdateWork = () => {
   );
 };
 
-export default UpdateWork;
+export default CreateWork;
 ;

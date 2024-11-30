@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import Hireme from "./Hireme";
 // import AboutMe from "./AboutMe";
 // import Services from "./Services";
@@ -23,9 +23,18 @@ import LatestPost from "../user/LatestPost";
 import GetInTouch from "../user/GetInTouch";
 import Navbar from "../Navbar";
 import Menubar from "../user/Menubar";
+import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const [menu, setMenu] = useState(false); // Handle menu state for mobile
+  const {auth} = useAuth()
+  const navigate = useNavigate()
+  useEffect(()=>{
+    if(auth?.token){
+navigate("/admin")
+    }
+  },[auth?.token])
 
   return (
     <div>

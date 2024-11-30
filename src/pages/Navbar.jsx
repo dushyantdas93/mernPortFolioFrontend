@@ -9,9 +9,9 @@ const Navbar = ({ menu, setMenu }) => {
   const [auth,setAuth] = useAuth()
   return (
     <div className="lg:hidden bg-gray-200 w-full flex items-center px-6 text-xl font-bold justify-between border border-gray-300-b py-3 fixed top-0 z-10">
-      <h1 className=" text-2xl font-bold " onClick={() => {auth ?  navigate("/login") : navigate("/admin")  }}>
+      <h1 className=" text-2xl font-bold " onClick={() => {auth?.token ?  navigate("/login") : navigate("/admin")  }}>
         {" "}
-        Portfolio
+        {!auth?.token ? "Portfolio" : auth?.user?.name}
       </h1>
       {menu ? (
         <IoClose

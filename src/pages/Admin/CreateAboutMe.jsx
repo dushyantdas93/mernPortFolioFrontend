@@ -2,10 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
-import { useNavigate } from "react-router-dom";
-import ClosePage from "../../components/ClosePage";
 
-const updateAboutMe = () => {
+const CreateAboutMe = ({setOpen}) => {
   // Validation Schema
   const validationSchema = Yup.object({
     
@@ -52,11 +50,9 @@ const updateAboutMe = () => {
     alert("Form submitted successfully!");
   };
 
-  const navigate = useNavigate()
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-       <ClosePage />
+    <div className="flex flex-col items-center justify-center min-h-screen absolute top-10 right-10">
+        <CloseModal setOpen={setOpen}/>
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           About Me Form
@@ -265,4 +261,4 @@ const updateAboutMe = () => {
   );
 };
 
-export default updateAboutMe;
+export default CreateAboutMe;

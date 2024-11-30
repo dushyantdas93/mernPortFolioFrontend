@@ -38,14 +38,14 @@ const App = () => {
                <Route path="" element={<Admin />} /> 
                <Route path="updateProfile/:id" element={<CreateProfile />} />
       
-               <Route path="updateAboutMe" element={<UpdateAboutMe />} />
-               <Route path="updateServices" element={<UpdateServices />} />
-               <Route path="updateCompletion" element={<UpdateCompletion />} />
-               <Route path="updatePost" element={<UpdatePost />} />
-               <Route path="updateClientReview" element={<UpdateClientReview />} />
+               <Route path="updateAboutMe/:aboutId" element={<UpdateAboutMe />} />
+               <Route path="updateServices/:serviceId" element={<UpdateServices />} />
+               <Route path="updateCompletion/:completionId" element={<UpdateCompletion />} />
+               <Route path="updatePost/:postId" element={<UpdatePost />} />
+               <Route path="updateClientReview/:ClientId" element={<UpdateClientReview />} />
 
-               <Route path="updateWork" element={<UpdateWork />} />
-               <Route path="updatePricingPlane" element={<UpdatePricingPlane />}
+               <Route path="updateWork/:workId" element={<UpdateWork />} />
+               <Route path="updatePricingPlan/:pricingId" element={<UpdatePricingPlane />}
       />
       <Route path="messages" element={<Messages />} />
       </Route>

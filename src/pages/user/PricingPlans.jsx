@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import client5 from "/images/price-1.svg";
 import bg from "/images/dots-bg-light.svg";
 import { useActionData } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
+import CreatePricing from "../Admin/CreatePricing";
 
 const PricingPlans = () => {
   const [auth, setAuth] = useAuth();
@@ -31,6 +32,8 @@ const PricingPlans = () => {
       rate: 25,
     },
   ];
+
+  const [open,setOpen] = useState(false)
   return (
     <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 py-6">
       <div className="flex justify-between items-center">
@@ -38,10 +41,11 @@ const PricingPlans = () => {
           <img src={bg} alt="" className="absolute -left-2  lg:-left-5 " />
           Pricing Plans
         </h1>
-        {auth?.token ? <Button url={"/admin/updatePricingPlane"} /> : ""}
+        {auth?.token ? <Button  onClick={()=>setOpen(true)}  /> : ""}
       </div>
 
       <div className="w-full  flex flex-wrap gap-6 lg:gap-4 justify-around relative">
+        {open ? <CreatePricing setOpen={setOpen}/> : ""}
         {card.map((item, idx) => {
           return (
             <div
@@ -55,7 +59,7 @@ const PricingPlans = () => {
                 </div> */}
 
               {auth?.token ? (
-                <EditDelete className={"absolute -top-5 -right-32"} />
+                <EditDelete url={"updatePricingPlan"}  className={"absolute -top-5 -right-32"} />
               ) : (
                 ""
               )}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import ClosePage from "../../components/ClosePage";
+import CloseModal from "../../components/CloseModal";
 
 const validationSchema = Yup.object({
   image: Yup.mixed()
@@ -13,7 +13,7 @@ const validationSchema = Yup.object({
   subdescription: Yup.string().required("Subdescription is required"),
 });
 
-const UpdateClientReview = () => {
+const CreateClientReview = ({setOpen}) => {
   const formik = useFormik({
     initialValues: {
       image: null,
@@ -28,9 +28,9 @@ const UpdateClientReview = () => {
   });
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 border rounded-md shadow-lg relative ">
+    <div className="w-full max-w-md mx-auto p-6 border rounded-md shadow-lg absolute top-10 right-10">
 
-      <ClosePage/>
+      <CloseModal setOpen={setOpen}/>
       <h1 className="text-xl font-bold mb-4">Client Review Form</h1>
       <form onSubmit={formik.handleSubmit}>
         {/* Image Upload */}
@@ -119,4 +119,4 @@ const UpdateClientReview = () => {
   );
 };
 
-export default UpdateClientReview;
+export default CreateClientReview;

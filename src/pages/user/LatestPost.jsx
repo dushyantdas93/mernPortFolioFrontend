@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import client5 from "/images/blog/3.svg";
 import bg from "/images/dots-bg-light.svg";
 import { useAuth } from "../../context/auth";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
+import CreatePost from "../Admin/CreatePost";
 
 const LatestPost = () => {
   const [auth, setAuth] = useAuth();
+  const [open,setOpen] = useState(false)
   const card = [
     {
       img: client5,
@@ -31,10 +33,11 @@ const LatestPost = () => {
           <img src={bg} alt="" className="absolute -left-2  lg:-left-5 " />
           Latest Posts
         </h1>
-        {auth?.token ? <Button url={"/admin/updatePost"} /> : ""}
+        {auth?.token ? <Button onClick={()=>setOpen(true)} /> : ""}
       </div>
 
-      <div className="w-full  flex flex-wrap gap-4 justify-around">
+      <div className="w-full  flex flex-wrap gap-4 justify-around relative">
+        {open ? <CreatePost setOpen={setOpen}/> : ""}
         {card.map((item, idx) => {
           return (
             <div
@@ -42,7 +45,7 @@ const LatestPost = () => {
               className="relative w-80 lg:w-72 rounded-lg border border-gray-300  flex flex-col items-center justify-center text-start  overflow-hidden shadow-lg"
             >
               {auth?.token ? (
-                <EditDelete className={"absolute top-4 -right-24"} />
+                <EditDelete url={"updatePost"} className={"absolute top-4 -right-24"} />
               ) : (
                 ""
               )}
