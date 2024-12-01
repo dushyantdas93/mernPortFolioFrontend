@@ -10,7 +10,7 @@ const Private = () => {
     const [ok, setOk] = useState(false)
     const [auth, setAuth] = useAuth()
     const navigate = useNavigate()
-    console.log(auth)
+    // console.log(auth)
     
     useEffect(() => {
         const authChech = () => {

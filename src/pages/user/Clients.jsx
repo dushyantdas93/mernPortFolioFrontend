@@ -92,7 +92,7 @@ const Clients = () => {
         <div className="flex absolute bottom-0   gap-2 items-center  ">
           {card.map((_, idx) => {
             return (
-              <button
+              <button key={idx}
                 className={`${
                   slide == idx ? " bg-white h-4 w-8 " : " bg-gray-400 size-4 "
                 }  rounded-full border flex items-center justify-center text-sm  `}

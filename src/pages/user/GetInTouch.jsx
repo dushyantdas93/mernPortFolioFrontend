@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import map from "/images/map-light.png";
 import bg from "/images/dots-bg-light.svg";
+import { UsePost } from "../../Customhook/UsePost.jsx";
 
 // Validation schema with Yup
 const validationSchema = Yup.object({
@@ -11,6 +12,7 @@ const validationSchema = Yup.object({
   subject: Yup.string().required("Subject is required"),
   message: Yup.string().required("Message is required"),
 });
+
 
 const GetInTouch = () => {
   // Formik hook to handle form state and validation
@@ -25,6 +27,10 @@ const GetInTouch = () => {
     onSubmit: (values) => {
       // Handle form submission
       console.log("Form data", values);
+
+     UsePost("message",values)
+
+
       
     },
   });

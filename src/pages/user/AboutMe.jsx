@@ -12,7 +12,7 @@ const AboutMe = () => {
   // Function to determine the background color based on percentage
   useEffect(()=>{
     // console.log("auth from aboutme: ",auth);
-    console.log("locastorage: ",localStorage.getItem("auth"));
+    // console.log("locastorage: ",localStorage.getItem("auth"));
   },[auth])
   const getColor = (percent) => {
     if (percent >= 0 && percent <= 20) {
@@ -40,7 +40,7 @@ const AboutMe = () => {
     <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 text-gray-600 ">
       <div className="flex   justify-between items-center  ">
         <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 flex relative text-gray-600">
-          <img src={bg} alt="" className="absolute -left-5 " /> About Me
+          <img src={bg} alt="" className="absolute -left-5  " /> About Me
         </h1>
         {auth?.token ? <Button onClick={()=>setOpen(true)} /> : " "}
       </div>
@@ -50,7 +50,7 @@ const AboutMe = () => {
           <img
             src={favicon}
             alt=""
-            className="lg:size-32 drop-shadow-2xl rounded-full"
+            className="size-32 drop-shadow-2xl rounded-full"
           />
           <div className="w-[90%] lg:w-[70%] border border-gray-300 flex flex-col lg:flex-row rounded-lg px-6 h-auto lg:gap-5 shadow- ralative">
             {auth?.token ? (

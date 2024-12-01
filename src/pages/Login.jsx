@@ -3,10 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 
-import { UsePost } from "../Customhook/UsePost";
+// import { UsePost } from "../Customhook/UsePost";
 import { useAuth } from "../context/auth";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { host } from "../utils/constant";
 
 
 const Login = () => {
@@ -38,19 +39,19 @@ const Login = () => {
     // console.log("Form Submitted:", values);
     // const res = UsePost(url,values)
     const res = await axios.post(
-      `http://localhost:8080/api/v1/auth/login`,
+      `${host}/auth/login`,
       values
   );
   if (res && res.data.success) {
       toast.success(res.data.message);
-      console.log(res,"response from the logun")
+      console.log(res,"response from the login")
     setAuth({user: res.data.user, token: res.data.token })
     localStorage.setItem("auth",JSON.stringify(res.data))   
     
   } else {
       toast.error(res.data.message);
   }
-    if(res){
+    if(res.data.success){
       
         navigate("/admin")
 

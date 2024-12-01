@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "../../context/auth";
-import { Usecloudinary } from "../../components/UseCloudinary";
+
+
 import ClosePage from "../../components/ClosePage";
+
+
+import axios from "axios";
+import { host } from "../../utils/constant";
+import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router-dom";
 
 
 const CreateProfile = () => {
   const [auth,setAuth] = useAuth()
+  const navigate = useNavigate()
+
   const [showPassword, setShowPassword] = useState(false); // Toggle change password field
   const [url, setUrl] = useState('');
-  const navigate = useNavigate()
+ 
 
   const saveImage = async (file) => {
     const data = new FormData();
@@ -40,7 +47,7 @@ const CreateProfile = () => {
     }
   };
 
-const update = auth?.user
+
 
 
 
@@ -49,9 +56,7 @@ const handleImage = (imageUrl)=>{
 }
 
 
-  
-  console.log(auth?.user)
-  // Validation Schema
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(3, "Name must be at least 3 characters")
@@ -87,11 +92,21 @@ const handleImage = (imageUrl)=>{
   });
 
   // Handle form submission
-  const handleSubmit = (values) => {
+  const handleSubmit = async(values) => {
     console.log("Form Submitted:", values);
     alert("Form submitted successfully!");
+    try {
+      const response = await axios.put(`${host}/auth/updateProfile/${auth?.user._id}`, values);
+      console.log(response);
+      setAuth({...auth,user:response.data.user}); // Update user in state
+    navigate(-1)
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
  
+
+
 
   return (
     <div
@@ -104,22 +119,17 @@ const handleImage = (imageUrl)=>{
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Update Profile
         </h2>
-        <h1
-          className="absolute top-5 right-10 font-semibold"
-          onClick={() => setOpen(false)}
-        >
-          X
-        </h1>
+        
         <Formik
           initialValues={{
-            name: update?.name,
-            email: update?.email,
-            phone: update?.phone,
-            instagram: update?.instagram,
-            github: update?.github,
-            linkedin: update?.linkedin,
+            name: auth?.user?.name,
+            email: auth?.user?.email,
+            phone: auth?.user?.phone,
+            instagram: auth?.user?.instagram,
+            github: auth?.user?.github,
+            linkedin: auth?.user?.linkedin,
             password: "",
-            image: update?.image,
+            image: auth?.user?.image,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}

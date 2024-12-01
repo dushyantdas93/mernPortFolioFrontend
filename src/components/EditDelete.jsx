@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import useDelete from '../Customhook/UseDelete';
 
 const EditDelete = ({url,item,className}) => {
   // State to manage dropdown visibility
@@ -32,6 +33,20 @@ const EditDelete = ({url,item,className}) => {
     };
   }, []);
 
+  const { deleteItem, isDeleting, error, isDeleted } = useDelete(
+    // Pass the item ID, the URL for deletion, and a callback function (optional)
+    '',
+    url,
+    // () => {
+    //   // Refresh or update the list of items after successful deletion
+    //   setItems(prevItems => prevItems.filter(item => item.id !== itemId));
+    // }
+  );
+
+  const handleDelete = (itemId) => {
+    deleteItem(itemId);
+  };
+
   return (
     <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
       {/* Button to toggle dropdown */}
@@ -63,7 +78,7 @@ navigate(`/admin/${url}/${item?._id}`,{ state:item})
             <Link
               to="/admin"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => console.log('Delete clicked')}
+              onClick={() =>handleDelete(item?._id)}
             >
               Delete
             </Link>

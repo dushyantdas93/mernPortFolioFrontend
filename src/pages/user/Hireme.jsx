@@ -7,25 +7,46 @@ import { FaMedium } from "react-icons/fa6";
 
 import { FaGithub } from "react-icons/fa";
 
-import { useAuth } from "../../context/auth";
+
 import { Link, useNavigate } from "react-router-dom";
+
+import axios from "axios";
+import { useAuth } from "../../context/auth";
+
 
 
 
 
 const Hireme = () => {
-  const [auth, setAuth] = useAuth();
+
+  const [auth,setAuth] = useAuth()
+ 
+
+
+
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
-  useEffect(() => {}, []);
+ 
+  useEffect(() => {
+   (async()=>{
+    try {
+      // console.log("get users called",host);
+      const response = await axios.get('${host}/auth/getAll'); // Replace with your API endpoint
+      setAuth(response.data.getAll[1]); // Store fetched users
+      console.log("from get user",response.data);
+      // console.log("get user from db",response?.data)
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+   })();
+  }, []);
  
 
   const icons = [
     {
       socalIcon: FaInstagram,
       link:
-        auth?.user?.instragram || "https://www.instagram.com/dushyantdas93/",
+       auth?.user?.instragram || "https://www.instagram.com/dushyantdas93/",
     },
     {
       socalIcon: FaGithub,
@@ -56,11 +77,12 @@ const Hireme = () => {
         />
         <h1 className="font-bold text-2xl lg:text-4xl text-gray-600">
           {auth?.token ? auth?.user?.name : "Dushyant Manikpuri"}
+    
         </h1>
         <h3 className="text-md lg:text-lg ">I'm Frontend Developer</h3>
         <div className="flex items-center justify-center w-1/2 gap-4 lg:gap-6 ">
           {icons.map((Icon, index) => (
-            <Link to={Icon.link} target="_blank">
+            <Link to={Icon.link} key={index} target="_blank">
               {" "}
               {Icon.link && (
                 <Icon.socalIcon
@@ -74,7 +96,7 @@ const Hireme = () => {
         <button
           className="bg-red-500  px-4 py-1 rounded-full font-semibold lg:text-xl lg:px-6 lg:py-2 text-white"
           onClick={() => {
-            auth?.token ? navigate(`/admin/updateProfile/1 `) : navigate("/");
+            auth?.token ? navigate(`/admin/updateProfile/1`) : navigate("/");
           }}
         >
           {!auth?.token ? " Hire me" : "Update"}
