@@ -33,7 +33,11 @@ const Hireme = () => {
     try {
       // console.log("get users called",host);
       const response = await axios.get(`${host}/auth/getAll`); // Replace with your API endpoint
-      setAuth(response.data.getAll[0]); // Store fetched users
+      // setAuth(response.data.getAll[0]); // Store fetched users
+      setAuth(prevAuth => ({
+        ...prevAuth, // Preserve the existing properties in auth
+        user: response.data.getAll[1] // Update only the user field
+    }));
       console.log("from get user",response.data);
       // console.log("get user from db",response?.data)
     } catch (error) {
