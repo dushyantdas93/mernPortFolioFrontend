@@ -98,7 +98,11 @@ const handleImage = (imageUrl)=>{
     try {
       const response = await axios.put(`${host}/auth/updateProfile/${auth?.user._id}`, values);
       console.log(response);
-      setAuth({...auth,user:response.data.user}); // Update user in state
+      setAuth(prevAuth => ({
+        ...prevAuth, // Preserve the existing properties in auth
+        user: response.data.user // Update only the user field
+    }));
+    
     navigate(-1)
     } catch (error) {
       console.error("Error updating user:", error);
