@@ -11,7 +11,7 @@ export const UsePost = async(url,values)=>{
  
     try {
               const res = await axios.post(
-                  `${backend_url}${url}`,
+                  `${backend_url}/${url}`,
                   values
               );
               if (res && res.data.success) {
