@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { useAuth } from "../../context/auth";
+import { host } from "../../utils/constant";
 
 
 
@@ -31,14 +32,14 @@ const Hireme = () => {
    (async()=>{
     try {
       // console.log("get users called",host);
-      const response = await axios.get('${host}/auth/getAll'); // Replace with your API endpoint
-      setAuth(response.data.getAll[1]); // Store fetched users
+      const response = await axios.get(`${host}/auth/getAll`); // Replace with your API endpoint
+      setAuth(response.data.getAll[0]); // Store fetched users
       console.log("from get user",response.data);
       // console.log("get user from db",response?.data)
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-   })();
+   })();  
   }, []);
  
 

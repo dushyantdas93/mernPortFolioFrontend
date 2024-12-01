@@ -1,8 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import { host } from "../utils/constant";
+
 
 // import {  useNavigate } from "react-router-dom";
-const backend_url = "http://localhost:8080/api/v1/"
+const backend_url = host
 
 export const UsePost = async(url,values)=>{
     // const navigate = useNavigate()
@@ -15,7 +17,7 @@ export const UsePost = async(url,values)=>{
               if (res && res.data.success) {
                   toast.success(res.data.message);
                
-               
+               return res
                 
               } else {
                   toast.error(res.data.message);
@@ -25,6 +27,6 @@ export const UsePost = async(url,values)=>{
               toast.error("something went wrong")
           }
 
-       
+    
       
 }

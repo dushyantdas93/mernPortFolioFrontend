@@ -1,28 +1,30 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import { host } from "../utils/constant.js";
+
 
 // import {  useNavigate } from "react-router-dom";
-const backend_url = "http://localhost:8080/api/v1/"
+const backend_url = host
 
-export const UseGet = async(url,values)=>{
+export const UseGet = async(url)=>{
     // const navigate = useNavigate()
  
     try {
               const res = await axios.get(
-                  `${backend_url}${url}`,
-                  values
+                  `${backend_url}${url}`
               );
               if (res && res.data.success) {
                   toast.success(res.data.message);
-                // setAuth({ ...auth, user: res.data.user, token: res.data.token })
+            
                
-                
+                return res
               } else {
                   toast.error(res.data.message);
               }
         
           } catch (error) {
               toast.error("something went wrong")
+return [];
           }
 
        
