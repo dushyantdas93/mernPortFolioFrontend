@@ -20,7 +20,7 @@ import PageNotFound from "./pages/PageNotFound.jsx";
 
 import UpdatePost from "./pages/Admin/UpdatePost.jsx";
 import UpdateClientReview from "./pages/Admin/UpdateClientReview.jsx";
-import CreateProfile from "./pages/Admin/createProfile.jsx";
+import CreateProfile from "./pages/Admin/CreateProfile.jsx";
 
 
 
