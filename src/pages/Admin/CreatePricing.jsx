@@ -24,7 +24,7 @@ const CreatePricing = ({setOpen}) => {
   };
 
   return (
-    <div className="z-100 flex flex-col items-center justify-center min-h-screen absolute top-10 right-10">
+    <div className=" flex flex-col items-center justify-center min-h-screen absolute top-10 right-10 z-10">
       <CloseModal setOpen={setOpen}/>
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
 

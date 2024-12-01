@@ -6,12 +6,12 @@ import { host } from "../utils/constant.js";
 // import {  useNavigate } from "react-router-dom";
 const backend_url = host
 
-export const UseGet = async(url)=>{
+export const UseGet = async (url)=>{
     // const navigate = useNavigate()
  
     try {
               const res = await axios.get(
-                  `${backend_url}${url}`
+                  `${backend_url}/${url}`
               );
               if (res && res.data.success) {
                   toast.success(res.data.message);

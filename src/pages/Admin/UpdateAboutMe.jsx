@@ -55,9 +55,9 @@ const updateAboutMe = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen">
        <ClosePage />
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-lg p-6 bg-[red] rounded-lg shadow-lg  px-10 ">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           About Me Form
         </h2>

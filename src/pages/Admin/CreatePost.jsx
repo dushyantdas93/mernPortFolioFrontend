@@ -28,7 +28,7 @@ const CreatePost = ({setOpen}) => {
   });
 
   return (
-    <div className="w-full max-w-md mx-auto absolute top-10 right-10">
+    <div className="w-full max-w-md mx-auto absolute top-10 right-10 z-10 bg-white p-10">
         <CloseModal  setOpen={setOpen}/>
       <h1 className="text-xl font-bold mb-4">Form with Validation</h1>
       <form onSubmit={formik.handleSubmit}>

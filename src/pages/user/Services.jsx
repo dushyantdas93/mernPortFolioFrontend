@@ -1,48 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import client5 from "/images/service-2.svg";
 import bg from "/images/dots-bg-light.svg";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
 import { useAuth } from "../../context/auth";
 import CreateServices from "../Admin/CreateServices";
+import { UseGet } from "../../Customhook/UseGet";
 
 const Services = () => {
   const [auth, setAuth] = useAuth();
 
   const [open,setOpen] = useState(false)
 
-  const card = [
-    {
-      _id: 1,
-      img: client5,
-      heading: "UI/UX design",
-      para: "Creative professional crafting intuitive, user-centered designs that enhance functionality and user experience.",
-    },
-    {
-      _id: 2,
-      img: client5,
-      heading: "Web Development",
-      para: "Skilled developer building responsive, interactive websites using HTML, CSS, JavaScript, and frameworks.",
-    },
-    {
-      _id: 3,
-      img: client5,
-      heading: "Backend Development",
-      para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
-    },
-    {
-      _id: 4,
-      img: client5,
-      heading: "MERN Developer",
-      para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
-    },
-    {
-      _id: 5,
-      img: client5,
-      heading: "Photography",
-      para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
-    },
-  ];
+  const [card,setCard] = useState([])
+
+  useEffect(()=>{
+    (async()=>{
+      const {data} = await UseGet("service/get")
+      // console.log(data?.getAll)
+      setCard(data?.getAll)
+    })()
+
+    console.log(card)
+ 
+  },[])
+
+  // const card = [
+  //   {
+  //     _id: 1,
+  //     img: client5,
+  //     heading: "UI/UX design",
+  //     para: "Creative professional crafting intuitive, user-centered designs that enhance functionality and user experience.",
+  //   },
+  //   {
+  //     _id: 2,
+  //     img: client5,
+  //     heading: "Web Development",
+  //     para: "Skilled developer building responsive, interactive websites using HTML, CSS, JavaScript, and frameworks.",
+  //   },
+  //   {
+  //     _id: 3,
+  //     img: client5,
+  //     heading: "Backend Development",
+  //     para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
+  //   },
+  //   {
+  //     _id: 4,
+  //     img: client5,
+  //     heading: "MERN Developer",
+  //     para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
+  //   },
+  //   {
+  //     _id: 5,
+  //     img: client5,
+  //     heading: "Photography",
+  //     para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
+  //   },
+  // ];
   
 
     
@@ -67,7 +81,7 @@ const Services = () => {
       </div>
 
       <div className="w-full  flex flex-wrap gap-4 justify-around">
-        {card.map((item, idx) => {
+        {card?.map((item, idx) => {
           return (
             <div
               key={idx}
@@ -84,9 +98,9 @@ const Services = () => {
                 )}
           
 
-              <img src={item.img} alt="" />
-              <h1 className="font-bold text-lg">{item.heading}</h1>
-              <p className="">{item.para}</p>
+              <img src={item?.img == null  ? item?.img :  client5} alt="" />
+              <h1 className="font-bold text-lg">{item.name}</h1>
+              <p className="">{item.description}</p>
             </div>
           );
         })}

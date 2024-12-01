@@ -38,7 +38,7 @@ const Hireme = () => {
         ...prevAuth, // Preserve the existing properties in auth
         user: response.data.getAll[1] // Update only the user field
     }));
-      console.log("from get user",response.data);
+      // console.log("from get user",response.data);
       // console.log("get user from db",response?.data)
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -74,18 +74,18 @@ const Hireme = () => {
   ];
   return (
     <div className=" w-full  flex  flex-col justify-center lg:justify-around  items-center    py-10  h-full lg:h-auto bg-gray-200 text-gray-600">
-      <div className=" w-full lg:w-1/3 flex flex-col items-center pt-16  gap-4 lg:gap-6 ">
+      <div className=" w-full lg:w-2/3 flex flex-col items-center pt-16  gap-4 lg:gap-6 ">
         <img
           src={favicon}
           alt=""
           className="size-32 drop-shadow-2xl rounded-full"
         />
         <h1 className="font-bold text-2xl lg:text-4xl text-gray-600">
-          {auth?.token ? auth?.user?.name : "Dushyant Manikpuri"}
+          {!auth?.token ? auth?.user?.name : "Dushyant Das Manikpuri"}
     
         </h1>
         <h3 className="text-md lg:text-lg ">I'm Frontend Developer</h3>
-        <div className="flex items-center justify-center w-1/2 gap-4 lg:gap-6 ">
+        <div className="flex items-center justify-center  w-1/2  gap-4 lg:gap-6 ">
           {icons.map((Icon, index) => (
             <Link to={Icon.link} key={index} target="_blank">
               {" "}

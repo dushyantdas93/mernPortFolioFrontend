@@ -49,7 +49,7 @@ const Menubar = ({ menu, setMenu }) => {
     <div
       className={`${
         menu ? "h-2/5" : "h-0"
-      } w-full border border-gray-300 overflow-y-auto  lg:h-full lg:w-1/6 bg-gray-200 lg:border border-gray-300-r z-10 overflow-hidden lg:flex flex-col px-6 lg:py-10 gap-2 lg:gap-6 capitalize mt-14 lg:m-0 fixed top-0 `}
+      } w-full border border-gray-300 overflow-y-auto  lg:h-full lg:w-1/6 bg-gray-200 lg:border border-gray-300-r  overflow-hidden lg:flex flex-col px-6 lg:py-10 gap-2 lg:gap-6 capitalize mt-14 lg:m-0 fixed top-0 `}
       id="sidebar"
     >
       <div className="hidden lg:block text-gray-600 text-4xl font-bold px-10  ">
@@ -81,7 +81,7 @@ const Menubar = ({ menu, setMenu }) => {
 
         {auth?.token ? (
           <>
-            <Link
+            <Link to=""
               onClick={() => navigate("/admin/messages")}
               // Link to the section
               smooth={true} // Enable smooth scrolling

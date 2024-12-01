@@ -46,7 +46,7 @@ navigate("/admin")
         smooth={true} // Enable smooth scrolling
         duration={500} // Duration of the scroll
         offset={-70} // Offset for fixed header (optional)
-        className="fixed bottom-4 lg:bottom-10 right-4 lg:right-10 rounded-full size-10 lg:size-16 flex items-center justify-center bg-gray-200 border border-gray-300 z-10"
+        className="fixed bottom-4 lg:bottom-10 right-4 lg:right-10 rounded-full size-10 lg:size-16 flex items-center justify-center bg-gray-200 border border-gray-300 "
         // onClick={handleLinkClick} // Close the menu on click
       >
         <FaArrowUpLong className="h-10 " />

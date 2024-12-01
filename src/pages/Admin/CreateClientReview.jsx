@@ -28,7 +28,7 @@ const CreateClientReview = ({setOpen}) => {
   });
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 border rounded-md shadow-lg absolute top-10 right-10">
+    <div className="w-full max-w-md mx-auto p-6 border rounded-md shadow-lg absolute top-10 right-10 z-10 bg-white">
 
       <CloseModal setOpen={setOpen}/>
       <h1 className="text-xl font-bold mb-4">Client Review Form</h1>

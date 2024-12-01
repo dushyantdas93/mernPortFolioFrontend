@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
     if (data) {
       
       const parseData = JSON.parse(data)
-      console.log("paserdata:",parseData);
+      // console.log("paserdata:",parseData);
        setAuth({ ...auth, user: parseData.user, token: parseData.token });
     }
     // eslint disable next line 

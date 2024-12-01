@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
 
-const CreateCompletion = ({setOpen}) => {
+const CreateCompletion = ({ setOpen }) => {
   // Validation Schema
   const validationSchema = Yup.object({
     yearOfCompletion: Yup.string()
@@ -27,6 +27,9 @@ const CreateCompletion = ({setOpen}) => {
       .min(0, "Percentage must be at least 0")
       .max(100, "Percentage cannot exceed 100")
       .required("Percentage is required"),
+    category: Yup.string()
+      .oneOf(["Job", "Education"], "Invalid category")
+      .required("Category is required"),
   });
 
   // Handle Form Submission
@@ -36,8 +39,8 @@ const CreateCompletion = ({setOpen}) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 absolute top-10 right-10">
-        <CloseModal setOpen={setOpen}/>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 absolute top-10 right-10 z-10">
+      <CloseModal setOpen={setOpen} />
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Completion Form
@@ -49,6 +52,7 @@ const CreateCompletion = ({setOpen}) => {
             name: "",
             description: "",
             percentage: "",
+            category: "", // New dropdown field
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -150,6 +154,28 @@ const CreateCompletion = ({setOpen}) => {
                 />
                 <ErrorMessage
                   name="percentage"
+                  component="div"
+                  className="text-red-500 text-sm mt-1"
+                />
+              </div>
+
+              {/* Category Dropdown */}
+              <div className="mb-4">
+                <label htmlFor="category" className="block text-gray-700">
+                  Category
+                </label>
+                <Field
+                  as="select"
+                  name="category"
+                  id="category"
+                  className="w-full px-4 py-2 border rounded-lg"
+                >
+                  <option value="">Select Category</option>
+                  <option value="Job">Job</option>
+                  <option value="Education">Education</option>
+                </Field>
+                <ErrorMessage
+                  name="category"
                   component="div"
                   className="text-red-500 text-sm mt-1"
                 />

@@ -51,10 +51,10 @@ const CreateAboutMe = ({setOpen}) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen absolute top-10 right-10">
+    <div className="flex flex-col items-center justify-center min-h-screen absolute top-10 right-10 z-10">
         <CloseModal setOpen={setOpen}/>
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+      <div className="w-full max-w-lg p-20  rounded-lg shadow-lg  bg-white">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6 ">
           About Me Form
         </h2>
         <Formik

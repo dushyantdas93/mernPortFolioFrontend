@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import useDelete from '../Customhook/UseDelete';
+import {useDelete} from '../Customhook/UseDelete';
 
 const EditDelete = ({url,item,className}) => {
   // State to manage dropdown visibility
@@ -33,18 +33,11 @@ const EditDelete = ({url,item,className}) => {
     };
   }, []);
 
-  const { deleteItem, isDeleting, error, isDeleted } = useDelete(
-    // Pass the item ID, the URL for deletion, and a callback function (optional)
-    '',
-    url,
-    // () => {
-    //   // Refresh or update the list of items after successful deletion
-    //   setItems(prevItems => prevItems.filter(item => item.id !== itemId));
-    // }
-  );
+
 
   const handleDelete = (itemId) => {
-    deleteItem(itemId);
+    console.log("dekete")
+ (async ()=> await useDelete(url,itemId))()
   };
 
   return (
