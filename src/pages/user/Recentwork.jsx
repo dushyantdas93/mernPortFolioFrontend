@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import client5 from "/images/works/6.svg"; // Ensure this path is correct
 import bg from "/images/dots-bg-light.svg";
 import { MdOutlineReadMore } from "react-icons/md";
@@ -6,47 +6,27 @@ import { useAuth } from "../../context/auth";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
 import CreateWork from "../Admin/CreateWork";
+import { UseGet } from "../../Customhook/UseGet";
+import { Link } from "react-router-dom";
 
 const Recentwork = () => {
   const [auth, setAuth] = useAuth();
-  const card = [
-    {
-      img: client5,
-      heading: "UI/UX design",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-      category: "Creative",
-    },
-    {
-      img: client5,
-      heading: "Web Development",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-      category: "Creative",
-    },
-    {
-      img: client5,
-      heading: "Photography",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-      category: "Art",
-    },
-    {
-      img: client5,
-      heading: "UI/UX design",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-      category: "Design",
-    },
-    {
-      img: client5,
-      heading: "Web Development",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-      category: "Branded",
-    },
-    {
-      img: client5,
-      heading: "Photography",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-      category: "Art",
-    },
-  ];
+
+
+  const [card, setCard] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await UseGet("updateWork/get");
+      // console.log(data?.getAll)
+      setCard(data?.getAll);
+    })();
+
+    console.log(card)
+  }, []);
+
+
+ 
 
   const [selectedCategory, setSelectedCategory] = useState(""); // State to track the selected category
 
@@ -66,13 +46,13 @@ const Recentwork = () => {
 const [open,setOpen] =useState(false)
   return (
     <div className="w-full lg:w-4/6 mx-auto flex flex-col lg:px-6 justify-around gap-10 py-6 relative">
-     {open ?  <CreateWork setOpen={setOpen}/> : " "}
+      {open ? <CreateWork setOpen={setOpen} /> : " "}
       <div className="flex justify-between items-center">
         <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 relative">
           <img src={bg} alt="" className="absolute -left-2 lg:-left-5 " />
           Recent Works
         </h1>
-        {auth?.token ? <Button onClick={()=>setOpen(true)} /> : ""}
+        {auth?.token ? <Button onClick={() => setOpen(true)} /> : ""}
       </div>
 
       <div className="w-full px-6">
@@ -118,7 +98,7 @@ const [open,setOpen] =useState(false)
             {/* Image with blur effect on hover */}
             <div className="relative w-80  lg:w-72">
               <img
-                src={item.img}
+                src={!item?.screenshot ? item?.screenshot : client5}
                 alt={item.heading}
                 className=" rounded-lg w-full h-full object-cover transform transition duration-500 ease-in-out group-hover:blur-xm"
               />
@@ -127,7 +107,10 @@ const [open,setOpen] =useState(false)
             {/* Content to display on hover */}
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out ">
               {auth?.token ? (
-                <EditDelete className={"absolute -top-16 -right-24"} url={"updateWork"} />
+                <EditDelete
+                  className={"absolute -top-16 -right-24"}
+                  url={"updateWork"} item={item}
+                />
               ) : (
                 ""
               )}
@@ -137,9 +120,11 @@ const [open,setOpen] =useState(false)
               <h3 className="font-semibold text-white text-xl mb-2">
                 {item.heading}
               </h3>
-              <button className="border p-2 rounded-full absolute bottom-2 left-4 font-semibold">
-                <MdOutlineReadMore className="size-5 text-white" />{" "}
-              </button>
+              <Link to={item.link}>
+                <button className="border p-2 rounded-full absolute bottom-2 left-4 font-semibold">
+                  <MdOutlineReadMore className="size-5 text-white" />{" "}
+                </button>
+              </Link>
             </div>
           </div>
         ))}

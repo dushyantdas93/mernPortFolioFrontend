@@ -2,6 +2,9 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
+import { UsePost } from "../../Customhook/UsePost";
+
+
 
 const CreateServices = ({className,setOpen}) => {
   // Validation schema
@@ -28,9 +31,9 @@ const CreateServices = ({className,setOpen}) => {
   });
 
   // Handle form submission
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log("Form Values:", values);
-    alert("Service updated successfully!");
+      UsePost("updateServices/create", values);
   };
 
   return (

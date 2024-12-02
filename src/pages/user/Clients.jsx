@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import avatar from "/images/avatar-3.svg";
 import client1 from "/images/client-1.svg";
 import client2 from "/images/client-2.svg";
@@ -15,31 +15,23 @@ import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
 import Arrowbtn from "../../components/Arrowbtn";
 import CreateClientReview from "../Admin/CreateClientReview";
+import { UseGet } from "../../Customhook/UseGet";
 
 const Clients = () => {
   const [auth, setAuth] = useAuth();
-  const card = [
-    {
-      img: avatar,
-      name: "UI/UX design",
-      role: "developer as a fronf",
-      para: "I enjoy working with the theme and learn so much. You guys make the process fun and interesting. Good luck! 👍",
-    },
+ const [card, setCard] = useState([]);
 
-    {
-      img: client5,
-      name: "Web Development",
-      role: "developer as a fronf",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-    },
-    {
-      img: client5,
-      name: "Photography",
-      role: "developer as a fronf",
-      para: "Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget.",
-    },
-  ];
+ useEffect(() => {
+   (async () => {
+     const { data } = await UseGet("updateClientReview/get");
+     console.log(data?.getAll);
+     setCard(data?.getAll);
+   })();
 
+   console.log(card);
+ }, [])
+  
+  
   const [slide, setslide] = useState(0);
 
   setTimeout(() => {
@@ -60,12 +52,12 @@ const Clients = () => {
       </div>
 
       <div className="w-full flex flex-wrap relative  items-center justify-center">
-        <Arrowbtn
+       {slide == 0 ? <Arrowbtn
           text={"<"}
           className={"left-0"}
           onClick={() => setslide(slide === 0 ? card.length - 1 : slide - 1)}
-        />
-        {card.map((item, idx) => {
+        /> : ''}
+        {card?.map((item, idx) => {
           return (
             <div
               key={idx}
@@ -74,17 +66,21 @@ const Clients = () => {
               }  w-full  flex-col gap-2  items-center px-6 py-5  relative`}
             >
               {auth?.token ? (
-                <EditDelete url={"updateClientReview"}
+                <EditDelete
+                  url={"updateClientReview"} item={item}
                   className={"absolute top-4 -right-32 lg:-right-96"}
                 />
               ) : (
                 ""
               )}
-              <img src={avatar} className="drop-shadow-2xl" />
-              <h1 className="font-bold text-lg">{item.name}</h1>
-              <p className="">{item.role}</p>
+              <img
+                src={!item.image ? item.image : avatar}
+                className="drop-shadow-2xl"
+              />
+              <h1 className="font-bold text-lg">{item.title}</h1>
+              <p className="">{item.description}</p>
               <div className="w-full text-center border border-gray-300 rounded-lg py-3 flex items-center h-32 lg:h-20 lg:w-2/4 mt-4 p-3  lg:p-6 shadow-xl">
-                <p>{item.para}</p>
+                <p>{item.subdescription}</p>
               </div>
             </div>
           );
@@ -101,11 +97,11 @@ const Clients = () => {
             );
           })}
         </div>
-        <Arrowbtn
+        {slide == 0 ? <Arrowbtn
           text={">"}
           className={"right-0 cursor-pointer"}
           onClick={() => setslide(slide === card.length - 1 ? 0 : slide + 1)}
-        />
+        /> : ''}
       </div>
 
       <div className="w-full  flex items-center justify-center flex-wrap  gap-5">

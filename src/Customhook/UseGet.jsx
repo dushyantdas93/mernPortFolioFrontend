@@ -14,7 +14,7 @@ export const UseGet = async (url)=>{
                   `${backend_url}/${url}`
               );
               if (res && res.data.success) {
-                  toast.success(res.data.message);
+                //   toast.success(res.data.message);
             
                
                 return res

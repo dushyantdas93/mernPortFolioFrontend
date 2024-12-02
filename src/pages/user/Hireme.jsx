@@ -101,7 +101,9 @@ const Hireme = () => {
         <button
           className="bg-red-500  px-4 py-1 rounded-full font-semibold lg:text-xl lg:px-6 lg:py-2 text-white"
           onClick={() => {
-            auth?.token ? navigate(`/admin/updateProfile/1`) : navigate("/");
+            auth?.token
+              ? navigate(`/admin/updateProfile/${auth?.user?._id}`)
+              : navigate("/");
           }}
         >
           {!auth?.token ? " Hire me" : "Update"}

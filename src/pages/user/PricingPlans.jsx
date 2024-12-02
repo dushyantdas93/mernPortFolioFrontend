@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import client5 from "/images/price-1.svg";
 import bg from "/images/dots-bg-light.svg";
 import { useActionData } from "react-router-dom";
@@ -6,32 +6,22 @@ import { useAuth } from "../../context/auth";
 import Button from "../../components/Button";
 import EditDelete from "../../components/EditDelete";
 import CreatePricing from "../Admin/CreatePricing";
+import { UseGet } from "../../Customhook/UseGet";
 
 const PricingPlans = () => {
   const [auth, setAuth] = useAuth();
-  const card = [
-    {
-      img: client5,
-      mainhed: "Basic",
-      para: "Unlimited product including apps integrations and more features",
-      subpara: "Mon-Fri support",
-      rate: 25,
-    },
-    {
-      img: client5,
-      mainhed: "Premium",
-      para: "Unlimited product including apps integrations and more features",
-      subpara: "Mon-Fri support",
-      rate: 25,
-    },
-    {
-      img: client5,
-      mainhed: "Premum",
-      para: " Unlimited product including apps integrations and more features",
-      subpara: "Mon-Fri support",
-      rate: 25,
-    },
-  ];
+  const [card, setCard] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await UseGet("updatePricingPlan/get");
+      console.log(data?.getAll)
+      setCard(data?.getAll);
+    })();
+
+    console.log(card);
+  }, []);
+
 
   const [open,setOpen] = useState(false)
   return (
@@ -46,7 +36,7 @@ const PricingPlans = () => {
 
       <div className="w-full  flex flex-wrap gap-6 lg:gap-4 justify-around relative">
         {open ? <CreatePricing setOpen={setOpen}/> : ""}
-        {card.map((item, idx) => {
+        {card?.map((item, idx) => {
           return (
             <div
               key={idx}
@@ -59,7 +49,7 @@ const PricingPlans = () => {
                 </div> */}
 
               {auth?.token ? (
-                <EditDelete url={"updatePricingPlan"}  className={"absolute -top-5 -right-32"} />
+                <EditDelete url={"updatePricingPlan"} item={item}  className={"absolute -top-5 -right-32"} />
               ) : (
                 ""
               )}
@@ -71,13 +61,13 @@ const PricingPlans = () => {
               >
                 Recommonded
               </h1>
-              <img src={item.img} alt="" className="size-42 drop-shadow-2xl" />
+              <img src={!item.image ? item.image : client5} alt="" className="size-42 drop-shadow-2xl" />
 
-              <h1 className="font-bold text-xl">{item.mainhed}</h1>
-              <p className="text-sm  font-semibold">{item.para}</p>
-              <p className="text-sm  font-semibold">{item.subpara}</p>
+              <h1 className="font-bold text-xl">{item.category}</h1>
+              <p className="text-sm  font-semibold">{item.description}</p>
+              <p className="text-sm  font-semibold">{item.supports}</p>
               <p className="text-sm font-semibold">
-                $ <span className="text-3xl font-bold"> {item.rate} </span>
+                $ <span className="text-3xl font-bold"> {item.price} </span>
                 month
               </p>
 

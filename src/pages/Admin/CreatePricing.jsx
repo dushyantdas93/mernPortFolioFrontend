@@ -3,18 +3,28 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
 
-const CreatePricing = ({setOpen}) => {
+const CreatePricing = ({ setOpen }) => {
   // Validation Schema
   const validationSchema = Yup.object({
     category: Yup.string().required("Category is required"),
-    name: Yup.string()
-      .min(3, "Name must be at least 3 characters")
-      .required("Name is required"),
     description: Yup.string().required("Description is required"),
     price: Yup.number()
       .positive("Price must be a positive number")
       .required("Price is required"),
     supports: Yup.string().required("Supports field is required"),
+    image: Yup.mixed()
+      .required("Image is required")
+      .test(
+        "fileType",
+        "Only image files are allowed (jpg, jpeg, png)",
+        (value) =>
+          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+      )
+      .test(
+        "fileSize",
+        "Image size must not exceed 2MB",
+        (value) => value && value.size <= 2 * 1024 * 1024
+      ),
   });
 
   // Handle form submission
@@ -24,26 +34,25 @@ const CreatePricing = ({setOpen}) => {
   };
 
   return (
-    <div className=" flex flex-col items-center justify-center min-h-screen absolute top-10 right-10 z-10">
-      <CloseModal setOpen={setOpen}/>
+    <div className="flex flex-col items-center justify-center min-h-screen absolute top-10 right-10 z-10">
+      <CloseModal setOpen={setOpen} />
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
-
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Update Pricing Plan
         </h2>
-       
+
         <Formik
           initialValues={{
             category: "",
-            name: "",
             description: "",
             price: "",
             supports: "",
+            image: "",
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {() => (
+          {({ setFieldValue }) => (
             <Form>
               {/* Category Dropdown */}
               <div className="mb-4">
@@ -63,25 +72,6 @@ const CreatePricing = ({setOpen}) => {
                 </Field>
                 <ErrorMessage
                   name="category"
-                  component="div"
-                  className="text-red-500 text-sm mt-1"
-                />
-              </div>
-
-              {/* Name */}
-              <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700">
-                  Name
-                </label>
-                <Field
-                  type="text"
-                  name="name"
-                  id="name"
-                  className="w-full px-4 py-2 border rounded-lg"
-                  placeholder="Enter name"
-                />
-                <ErrorMessage
-                  name="name"
                   component="div"
                   className="text-red-500 text-sm mt-1"
                 />
@@ -144,6 +134,28 @@ const CreatePricing = ({setOpen}) => {
                 />
               </div>
 
+              {/* Image Upload */}
+              <div className="mb-4">
+                <label htmlFor="image" className="block text-gray-700">
+                  Image
+                </label>
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/*"
+                  onChange={(event) =>
+                    setFieldValue("image", event.currentTarget.files[0])
+                  }
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+                <ErrorMessage
+                  name="image"
+                  component="div"
+                  className="text-red-500 text-sm mt-1"
+                />
+              </div>
+
               {/* Submit Button */}
               <button
                 type="submit"
@@ -154,7 +166,6 @@ const CreatePricing = ({setOpen}) => {
             </Form>
           )}
         </Formik>
-        
       </div>
     </div>
   );

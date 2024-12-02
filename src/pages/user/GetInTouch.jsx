@@ -8,11 +8,12 @@ import { UsePost } from "../../Customhook/UsePost.jsx";
 // Validation schema with Yup
 const validationSchema = Yup.object({
   fullname: Yup.string().required("Name is required"),
-  email: Yup.string().email("Invalid email address").required("Email is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
   subject: Yup.string().required("Subject is required"),
   message: Yup.string().required("Message is required"),
 });
-
 
 const GetInTouch = () => {
   // Formik hook to handle form state and validation
@@ -24,14 +25,15 @@ const GetInTouch = () => {
       message: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       // Handle form submission
       console.log("Form data", values);
 
-     UsePost("message",values)
+      // Call custom hook to send form data
+      UsePost("message", values);
 
-
-      
+      // Reset form after submission
+      resetForm();
     },
   });
 
@@ -65,7 +67,9 @@ const GetInTouch = () => {
               className="w-full h-10 px-2 text-center rounded-full border border-gray-300 focus:outline-none"
             />
             {formik.touched.fullname && formik.errors.fullname && (
-              <div className="text-red-500 text-sm">{formik.errors.fullname}</div>
+              <div className="text-red-500 text-sm">
+                {formik.errors.fullname}
+              </div>
             )}
 
             {/* Email input */}
@@ -93,7 +97,9 @@ const GetInTouch = () => {
               className="w-full h-16 px-2 text-center rounded-full border border-gray-300 focus:outline-none"
             />
             {formik.touched.subject && formik.errors.subject && (
-              <div className="text-red-500 text-sm">{formik.errors.subject}</div>
+              <div className="text-red-500 text-sm">
+                {formik.errors.subject}
+              </div>
             )}
 
             {/* Message input */}
@@ -107,7 +113,9 @@ const GetInTouch = () => {
               className="w-full h-36 px-2 text-center rounded-3xl border border-gray-300 focus:outline-none"
             />
             {formik.touched.message && formik.errors.message && (
-              <div className="text-red-500 text-sm">{formik.errors.message}</div>
+              <div className="text-red-500 text-sm">
+                {formik.errors.message}
+              </div>
             )}
 
             {/* Submit Button */}

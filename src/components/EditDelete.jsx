@@ -5,12 +5,12 @@ import {useDelete} from '../Customhook/UseDelete';
 const EditDelete = ({url,item,className}) => {
   // State to manage dropdown visibility
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  
+  const { deleteItem } = useDelete(); // Destructure from hook
+
   // Reference to the dropdown to handle clicking outside of it
   const dropdownRef = useRef(null);
-
 
   // Toggle dropdown visibility
   const toggleDropdown = () => {
@@ -26,31 +26,30 @@ const EditDelete = ({url,item,className}) => {
 
   // Use effect to detect clicks outside the dropdown
   React.useEffect(() => {
-    document.addEventListener('click', closeDropdown);
+    document.addEventListener("click", closeDropdown);
 
     return () => {
-      document.removeEventListener('click', closeDropdown);
+      document.removeEventListener("click", closeDropdown);
     };
-  }, []);
-
-
+  }, [deleteItem]);
 
   const handleDelete = (itemId) => {
-    console.log("dekete")
- (async ()=> await useDelete(url,itemId))()
+    // console.log("dekete",itemId)
+ deleteItem(itemId,url);
   };
 
   return (
-    <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
+    <div
+      className={`relative inline-block text-left ${className}`}
+      ref={dropdownRef}
+    >
       {/* Button to toggle dropdown */}
       <button
         onClick={toggleDropdown}
         type="button"
-        className='size-10 rounded-full bg-gray-200'
+        className="size-10 rounded-full bg-gray-200"
       >
-        
-        {/* Icon for dropdown */}
-        :
+        {/* Icon for dropdown */}:
       </button>
 
       {/* Dropdown Menu */}
@@ -59,10 +58,9 @@ const EditDelete = ({url,item,className}) => {
           <div className="py-1">
             {/* Edit Option */}
             <h1
-             
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() =>{
-navigate(`/admin/${url}/${item?._id}`,{ state:item})
+              onClick={() => {
+                navigate(`/admin/${url}/${item?._id}`, { state: item });
               }}
             >
               Edit
@@ -71,7 +69,7 @@ navigate(`/admin/${url}/${item?._id}`,{ state:item})
             <Link
               to="/admin"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() =>handleDelete(item?._id)}
+              onClick={() => handleDelete(item?._id)}
             >
               Delete
             </Link>

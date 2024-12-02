@@ -16,7 +16,7 @@ const validationSchema = Yup.object({
 const CreateClientReview = ({setOpen}) => {
   const formik = useFormik({
     initialValues: {
-      image: null,
+      image: "",
       title: "",
       description: "",
       subdescription: "",

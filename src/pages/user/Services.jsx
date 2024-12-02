@@ -16,48 +16,16 @@ const Services = () => {
 
   useEffect(()=>{
     (async()=>{
-      const {data} = await UseGet("service/get")
+      const {data} = await UseGet("updateServices/get")
       // console.log(data?.getAll)
       setCard(data?.getAll)
     })()
 
-    console.log(card)
+    // console.log(card)
  
   },[])
 
-  // const card = [
-  //   {
-  //     _id: 1,
-  //     img: client5,
-  //     heading: "UI/UX design",
-  //     para: "Creative professional crafting intuitive, user-centered designs that enhance functionality and user experience.",
-  //   },
-  //   {
-  //     _id: 2,
-  //     img: client5,
-  //     heading: "Web Development",
-  //     para: "Skilled developer building responsive, interactive websites using HTML, CSS, JavaScript, and frameworks.",
-  //   },
-  //   {
-  //     _id: 3,
-  //     img: client5,
-  //     heading: "Backend Development",
-  //     para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
-  //   },
-  //   {
-  //     _id: 4,
-  //     img: client5,
-  //     heading: "MERN Developer",
-  //     para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
-  //   },
-  //   {
-  //     _id: 5,
-  //     img: client5,
-  //     heading: "Photography",
-  //     para: "Capturing moments through a lens, transforming scenes into visually compelling, storytelling images.",
-  //   },
-  // ];
-  
+
 
     
   return (
@@ -72,7 +40,7 @@ const Services = () => {
           <Button
             text={"create"}
             className={""}
-            onClick={()=>setOpen(true)}
+            onClick={()=>setOpen(true)} 
            
           />
         ) : (
