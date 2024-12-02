@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
+import { savePdf } from "../../utils/uploadToCloudinary";
+import { UsePost } from "../../Customhook/UsePost";
 
 const CreateAboutMe = ({setOpen}) => {
+
+  const [url, setUrl] = useState('');
+  const uploadImage = async(file)=>{
+    try {
+      const imageUrl = await savePdf(file);
+      
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+    
+      // UsePost("updateWork/create",  {...values,screenshot:url});
+     
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ",error);
+    }
+  }
   // Validation Schema
   const validationSchema = Yup.object({
     
@@ -48,6 +66,7 @@ const CreateAboutMe = ({setOpen}) => {
   const handleSubmit = (values) => {
     console.log("Form Submitted:", values);
     alert("Form submitted successfully!");
+    UsePost("updateAboutMe/create",  {...values,resume:url});
   };
 
   return (
@@ -85,9 +104,7 @@ const CreateAboutMe = ({setOpen}) => {
                   type="file"
                   id="resume"
                   accept=".pdf"
-                  onChange={(event) => {
-                    setFieldValue("resume", event.target.files[0]);
-                  }}
+                  onChange={(event)=>uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage

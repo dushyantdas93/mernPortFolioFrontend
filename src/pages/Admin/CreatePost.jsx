@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
+import { saveImage } from "../../utils/uploadToCloudinary";
+import { UsePost } from "../../Customhook/UsePost";
 
 const validationSchema = Yup.object({
   imageDescription: Yup.string().required("Image description is required"),
@@ -11,18 +13,35 @@ const validationSchema = Yup.object({
     .nullable()
     .min(new Date(), "Date cannot be in the past"), // Optional: ensures date isn't in the past
   image: Yup.mixed()
-    .required("Image is required")
-    .test("fileType", "Only image files are allowed", (value) =>
-      value
-        ? ["image/jpeg", "image/png", "image/gif"].includes(value.type)
-        : false
-    )
-    .test("fileSize", "File size should not exceed 2MB", (value) =>
-      value ? value.size <= 2 * 1024 * 1024 : false
-    ),
+  .test(
+    "fileType",
+    "Only image files are allowed",
+    (value) =>
+      !value ||
+      (value &&
+        ["image/jpeg", "image/png", "image/jpg"].includes(value.type))
+  )
+  .nullable(),
 });
 
 const CreatePost = ({ setOpen }) => {
+
+  const [url, setUrl] = useState('');
+  const uploadImage = async(file)=>{
+    try {
+      const imageUrl = await saveImage(file);
+      
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+    
+      // UsePost("updateWork/create",  {...values,screenshot:url});
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ",error);
+    }
+  }
+
+
   const formik = useFormik({
     initialValues: {
       imageDescription: "",
@@ -33,13 +52,10 @@ const CreatePost = ({ setOpen }) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("Form values:", values);
+      UsePost("updatePost/create",  {...values,image:url});
     },
   });
 
-  const handleImageChange = (event) => {
-    const file = event.currentTarget.files[0];
-    formik.setFieldValue("image", file);
-  };
 
   return (
     <div className="w-full max-w-md mx-auto absolute top-10 right-10 z-10 bg-white p-10">
@@ -119,7 +135,7 @@ const CreatePost = ({ setOpen }) => {
             id="image"
             name="image"
             accept="image/*"
-            onChange={(event) => handleImageChange(event)}
+            onChange={(event)=>uploadImage(event.target.files[0])}
             onBlur={formik.handleBlur}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

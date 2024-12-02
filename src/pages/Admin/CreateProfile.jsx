@@ -10,6 +10,8 @@ import axios from "axios";
 import { host } from "../../utils/constant";
 import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { saveImage } from "../../utils/uploadToCloudinary";
 
 
 const CreateProfile = () => {
@@ -20,40 +22,21 @@ const CreateProfile = () => {
   const [url, setUrl] = useState('');
  
 
-  const saveImage = async (file) => {
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "jayxtlmw");
-    data.append("cloud_name", "dywltditz");
-
-    try {
-      if (!file) {
-        return toast.error("Please upload an image");
-      }
-
-      const res = await fetch('https://api.cloudinary.com/v1_1/dywltditz/image/upload', {
-        method: "POST",
-        body: data
-      });
-
-      const cloudData = await res.json();
-      setUrl(cloudData.url);
-      handleImage(url)
-      // console.log(cloudData.url);
-      // toast.success("Image uploaded successfully");
-    } catch (error) {
-      // toast.error("Failed to upload the image");
-      console.error("Error uploading image:", error);
-    }
-  };
 
 
-
-
-
-const handleImage = (imageUrl)=>{
-  console.log(imageUrl)
+const uploadImage = async(file)=>{
+  try {
+    const imageUrl = await saveImage(file);
+    
+    // const [url, setUrl] = useState('');
+    // onChange={(event)=>uploadImage(event.target.files[0])}
+    // {...values,image:url}
+    setUrl(imageUrl);
+  } catch (error) {
+    console.log("Error while uploading image to cloudinary: ",error);
+  }
 }
+
 
 
 
@@ -82,13 +65,7 @@ const handleImage = (imageUrl)=>{
           "Password must contain at least one special character"
         ),
     }),
-    image: Yup.mixed().test(
-      "fileType",
-      "Only image files are allowed",
-      (value) =>
-        !value ||
-        (value && ["image/jpeg", "image/png", "image/gif"].includes(value.type))
-    ),
+    image: Yup.string()
   });
 
   // Handle form submission
@@ -96,7 +73,7 @@ const handleImage = (imageUrl)=>{
     console.log("Form Submitted:", values);
     alert("Form submitted successfully!");
     try {
-      const response = await axios.put(`${host}/auth/updateProfile/${auth?.user._id}`, values);
+      const response = await axios.put(`${host}/auth/updateProfile/${auth?.user._id}`, {...values,image:url});
       console.log(response);
       setAuth(prevAuth => ({
         ...prevAuth, // Preserve the existing properties in auth
@@ -264,7 +241,7 @@ const handleImage = (imageUrl)=>{
                   id="image"
                   name="image"
                   accept="image/*"
-                  onClick={()=>saveImage}
+                  onChange={(event)=>uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                 />
                

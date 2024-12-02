@@ -66,7 +66,7 @@ const Services = () => {
                 )}
           
 
-              <img src={item?.img == null  ? item?.img :  client5} alt="" />
+              <img src={item?.img !== null  ? item?.img :  client5} alt="" className={`${item?.img !== null  ? "size-20 rounded-full" :  ""}`} />
               <h1 className="font-bold text-lg">{item.name}</h1>
               <p className="">{item.description}</p>
             </div>

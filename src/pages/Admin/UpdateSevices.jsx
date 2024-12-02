@@ -1,16 +1,42 @@
-import React, { useEffect } from "react";
+
+
+
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CloseModal from "../../components/CloseModal";
-import ClosePage from "../../components/ClosePage";
+import { UsePost } from "../../Customhook/UsePost";
+import { saveImage } from "../../utils/uploadToCloudinary";
+import { useLocation, useParams } from "react-router-dom";
+import { UseUpdate } from "../../Customhook/UseUpdate";
 
 
 
 const UpdateServices = () => {
-  const location = useLocation();
+  
+ const location = useLocation();
   const {serviceId} = useParams()
   const { state } = location;
+
+  // console.log("location : ",location.pathname)
+
+
+  const [url, setUrl] = useState('');
+  const uploadImage = async(file)=>{
+    try {
+      const imageUrl = await saveImage(file);
+      
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+      // {...values,image:url}
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ",error);
+    }
+  }
+
+
+  
 
   useEffect(()=>{
     if(!state){
@@ -18,50 +44,47 @@ const UpdateServices = () => {
     }
 
   },[serviceId])
+
+
+
   // Validation schema
   const validationSchema = Yup.object({
-    img: Yup.mixed()
-      .test(
-        "fileType",
-        "Only image files are allowed",
-        (value) =>
-          !value ||
-          (value &&
-            ["image/jpeg", "image/png", "image/jpg"].includes(value.type))
-      )
-      .nullable(),
+    img: Yup.string()
+      ,
     name: Yup.string()
       .min(3, "Name must be at least 3 characters")
       .required("Name is required"),
     description: Yup.string()
       .min(20, "Description must be at least 20 characters")
       .required("Description is required"),
-    recommended: Yup.string()
-      .oneOf(["yes", "no"], "Please select a valid option")
+      recommended: Yup.boolean()
       .required("Recommendation status is required"),
   });
 
+
   // Handle form submission
-  const handleSubmit = (values) => {
-    console.log("Form Values:", values);
-    alert("Service updated successfully!");
+  const handleSubmit = async (values) => {
+    // UsePost("updateServices/create",  {...values,img:url});
+    // console.log("Form Values:", {...values,image:url});
+UseUpdate(location,{...values,image:url})
+
   };
 
-  const navigate = useNavigate()
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative">
-      <ClosePage/>
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+    <div className={`flex flex-col items-center justify-center min-h-screen`}>
+    
+      <div className="w-full max-w-lg p-6  rounded-lg shadow-lg bg-gray-300 z-10">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Update Services
+          Create Services
         </h2>
+
+       
         <Formik
           initialValues={{
-            img: state?.img,
-            name: state?.heading,
-            description:  state?.para,
-            recommended: "",
+            img: state?.img ,
+            name: state?.name,
+            description: state?.description,
+            recommended: state?.recommended,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -77,9 +100,7 @@ const UpdateServices = () => {
                   type="file"
                   id="img"
                   accept="image/*"
-                  onChange={(event) => {
-                    setFieldValue("img", event.target.files[0]);
-                  }}
+                  onChange={(event)=>uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage
@@ -139,8 +160,8 @@ const UpdateServices = () => {
                   className="w-full px-4 py-2 border rounded-lg"
                 >
                   <option value="">Select an option</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+  <option value={true}>Yes</option>
+  <option value={false}>No</option>
                 </Field>
                 <ErrorMessage
                   name="recommended"
@@ -154,7 +175,7 @@ const UpdateServices = () => {
                 type="submit"
                 className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
               >
-                Update Service
+                Create Service
               </button>
             </Form>
           )}

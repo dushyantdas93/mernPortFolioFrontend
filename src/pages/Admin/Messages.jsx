@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UsePost } from "../../Customhook/UsePost";
+
 import { UseGet } from "../../Customhook/UseGet";
 
 const Messages = () => {

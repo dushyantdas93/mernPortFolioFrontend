@@ -1,20 +1,42 @@
 
 
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
+import { saveImage } from "../../utils/uploadToCloudinary";
+import { UsePost } from "../../Customhook/UsePost";
 
 const CreateWork = ({setOpen}) => {
+
+  const [url, setUrl] = useState('');
+  const uploadImage = async(file)=>{
+    try {
+      const imageUrl = await saveImage(file);
+      
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+    
+      // UsePost("updateWork/create",  {...values,screenshot:url});
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ",error);
+    }
+  }
+  
+
   // Validation Schema
   const validationSchema = Yup.object({
-    screenshot: Yup.mixed()
-      .required("Screenshot image is required")
-      .test(
-        "fileType",
-        "Only image files are allowed",
-        (value) => !value || (value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type))
-      ),
+    screenshot:  Yup.mixed()
+    .test(
+      "fileType",
+      "Only image files are allowed",
+      (value) =>
+        !value ||
+        (value &&
+          ["image/jpeg", "image/png", "image/jpg"].includes(value.type))
+    )
+    .nullable(),
     category: Yup.string().required("Category is required"),
     name: Yup.string()
       .min(3, "Name must be at least 3 characters")
@@ -28,6 +50,9 @@ const CreateWork = ({setOpen}) => {
   const handleSubmit = (values) => {
     console.log("Form Values:", values);
     alert("Form submitted successfully!");
+    UsePost("updateWork/create",  {...values,screenshot:url});
+
+
   };
 
   return (
@@ -58,9 +83,7 @@ const CreateWork = ({setOpen}) => {
                   type="file"
                   id="screenshot"
                   accept="image/*"
-                  onChange={(event) => {
-                    setFieldValue("screenshot", event.target.files[0]);
-                  }}
+                  onChange={(event)=>uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage

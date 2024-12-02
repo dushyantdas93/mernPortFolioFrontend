@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
+import { saveImage } from "../../utils/uploadToCloudinary";
+import { UsePost } from "../../Customhook/UsePost";
 
 const CreatePricing = ({ setOpen }) => {
+
+  const [url, setUrl] = useState('');
+  const uploadImage = async(file)=>{
+    try {
+      const imageUrl = await saveImage(file);
+      
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+    
+      // UsePost("updateWork/create",  {...values,screenshot:url});
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ",error);
+    }
+  }
+
   // Validation Schema
   const validationSchema = Yup.object({
     category: Yup.string().required("Category is required"),
@@ -12,25 +30,23 @@ const CreatePricing = ({ setOpen }) => {
       .positive("Price must be a positive number")
       .required("Price is required"),
     supports: Yup.string().required("Supports field is required"),
-    image: Yup.mixed()
-      .required("Image is required")
-      .test(
-        "fileType",
-        "Only image files are allowed (jpg, jpeg, png)",
-        (value) =>
-          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-      )
-      .test(
-        "fileSize",
-        "Image size must not exceed 2MB",
-        (value) => value && value.size <= 2 * 1024 * 1024
-      ),
+    image:  Yup.mixed()
+    .test(
+      "fileType",
+      "Only image files are allowed",
+      (value) =>
+        !value ||
+        (value &&
+          ["image/jpeg", "image/png", "image/jpg"].includes(value.type))
+    )
+    .nullable(),
   });
 
   // Handle form submission
   const handleSubmit = (values) => {
     console.log("Form Values:", values);
     alert("Pricing plan updated successfully!");
+     UsePost("updatePricingPlan/create",  {...values,image:url});
   };
 
   return (
@@ -144,9 +160,7 @@ const CreatePricing = ({ setOpen }) => {
                   id="image"
                   name="image"
                   accept="image/*"
-                  onChange={(event) =>
-                    setFieldValue("image", event.currentTarget.files[0])
-                  }
+                  onChange={(event)=>uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage

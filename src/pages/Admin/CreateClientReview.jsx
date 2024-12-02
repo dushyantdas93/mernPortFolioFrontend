@@ -1,19 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
+import { saveImage } from "../../utils/uploadToCloudinary";
+import { UsePost } from "../../Customhook/UsePost";
 
 const validationSchema = Yup.object({
-  image: Yup.mixed()
-    .required("Image is required")
-    .test("fileSize", "File too large", (value) => !value || (value && value.size <= 5 * 1024 * 1024)) // Max size 5MB
-    .test("fileType", "Unsupported file format", (value) => !value || (value && ["image/jpeg", "image/png", "image/gif"].includes(value.type))),
+  image:Yup.mixed()
+  .test(
+    "fileType",
+    "Only image files are allowed",
+    (value) =>
+      !value ||
+      (value &&
+        ["image/jpeg", "image/png", "image/jpg"].includes(value.type))
+  )
+  .nullable(),
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
   subdescription: Yup.string().required("Subdescription is required"),
 });
 
 const CreateClientReview = ({setOpen}) => {
+
+  const [url, setUrl] = useState('');
+  const uploadImage = async(file)=>{
+    try {
+      const imageUrl = await saveImage(file);
+      
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+    
+      // UsePost("updateWork/create",  {...values,screenshot:url});
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ",error);
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       image: "",
@@ -24,6 +48,7 @@ const CreateClientReview = ({setOpen}) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("Form values:", values);
+      UsePost("updateClientReview/create",  {...values,image:url});
     },
   });
 
@@ -43,7 +68,7 @@ const CreateClientReview = ({setOpen}) => {
             id="image"
             name="image"
             accept="image/*"
-            onChange={(event) => formik.setFieldValue("image", event.currentTarget.files[0])}
+            onChange={(event)=>uploadImage(event.target.files[0])}
             onBlur={formik.handleBlur}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

@@ -76,7 +76,7 @@ const Hireme = () => {
     <div className=" w-full  flex  flex-col justify-center lg:justify-around  items-center    py-10  h-full lg:h-auto bg-gray-200 text-gray-600">
       <div className=" w-full lg:w-2/3 flex flex-col items-center pt-16  gap-4 lg:gap-6 ">
         <img
-          src={favicon}
+          src={auth?.user?.image ? auth?.user?.image : favicon}
           alt=""
           className="size-32 drop-shadow-2xl rounded-full"
         />

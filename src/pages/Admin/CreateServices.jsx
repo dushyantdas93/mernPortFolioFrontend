@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
 import { UsePost } from "../../Customhook/UsePost";
+import { saveImage } from "../../utils/uploadToCloudinary";
 
 
 
 const CreateServices = ({className,setOpen}) => {
+  
+  const [url, setUrl] = useState('');
+  const uploadImage = async(file)=>{
+    try {
+      const imageUrl = await saveImage(file);
+      
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+      // {...values,image:url}
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ",error);
+    }
+  }
+  
+
   // Validation schema
   const validationSchema = Yup.object({
     img: Yup.mixed()
@@ -25,21 +42,21 @@ const CreateServices = ({className,setOpen}) => {
     description: Yup.string()
       .min(20, "Description must be at least 20 characters")
       .required("Description is required"),
-    recommended: Yup.string()
-      .oneOf(["yes", "no"], "Please select a valid option")
+      recommended: Yup.boolean()
       .required("Recommendation status is required"),
   });
 
+
   // Handle form submission
   const handleSubmit = async (values) => {
+    UsePost("updateServices/create",  {...values,img:url});
     console.log("Form Values:", values);
-      UsePost("updateServices/create", values);
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center min-h-screen  ${className}`}>
+    <div className={`flex flex-col items-center justify-center min-h-screen   ${className}`}>
       <CloseModal setOpen={setOpen} />
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-lg p-6  rounded-lg shadow-lg bg-gray-300 z-10">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Create Services
         </h2>
@@ -66,9 +83,7 @@ const CreateServices = ({className,setOpen}) => {
                   type="file"
                   id="img"
                   accept="image/*"
-                  onChange={(event) => {
-                    setFieldValue("img", event.target.files[0]);
-                  }}
+                  onChange={(event)=>uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage
@@ -128,8 +143,8 @@ const CreateServices = ({className,setOpen}) => {
                   className="w-full px-4 py-2 border rounded-lg"
                 >
                   <option value="">Select an option</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+  <option value={true}>Yes</option>
+  <option value={false}>No</option>
                 </Field>
                 <ErrorMessage
                   name="recommended"

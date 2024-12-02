@@ -37,6 +37,7 @@ const EditDelete = ({url,item,className}) => {
     // console.log("dekete",itemId)
  deleteItem(itemId,url);
   };
+  
 
   return (
     <div
@@ -60,7 +61,7 @@ const EditDelete = ({url,item,className}) => {
             <h1
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               onClick={() => {
-                navigate(`/admin/${url}/${item?._id}`, { state: item });
+                navigate(`/admin/${url}/${item?._id}`, { state: item});
               }}
             >
               Edit
