@@ -11,7 +11,7 @@ const Messages = () => {
   useEffect(()=>{
     
     (async()=>{
-      const message = await UseGet("/message/getAll")
+      const message = await UseGet("message/getAll")
       console.log("message.js",message)
       setData(message?.data?.data||[]);
     })();
