@@ -84,7 +84,7 @@ const Hireme = () => {
           {auth?.token ? auth?.user?.name : "Dushyant Das Manikpuri"}
     
         </h1>
-        <h3 className="text-md lg:text-lg ">I'm MERN Stack Developer | Bachelor of Technology(CSE)</h3>
+        <h3 className="text-md lg:text-lg ">I'm MERN Stack Developer</h3>
         <div className="flex items-center justify-center  w-1/2  gap-4 lg:gap-6 ">
           {icons.map((Icon, index) => (
             <Link to={Icon.link} key={index} target="_blank">
