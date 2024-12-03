@@ -31,7 +31,7 @@ const User = () => {
         <FaArrowUpLong className="h-10 " />
       </Link>
       <div
-        className="h-full w-full  lg:h-full lg:w-5/6 lg:ml-[15%] overflow-y-scroll items-center justify-center "
+        className="h-full w-full  lg:h-full bg-bla lg:ml-[15%] overflow-y-scroll items-center justify-center "
         id="main"
       >
         <section id="home">

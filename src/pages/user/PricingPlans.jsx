@@ -56,14 +56,14 @@ const PricingPlans = () => {
 
               <h1
                 className={`font-semibold text-sm absolute -rotate-90  px-2 pr-6 text-white rounded-lg bg-blue-500 top-10 -left-3 ${
-                  item.mainhed === "Premium" ? " inline" : " hidden"
+                  item?.category === "premium" ? " inline" : " hidden"
                 } `}
               >
                 Recommonded
               </h1>
               <img src={item.image ? item.image : client5} alt="" className="size-14 rounded-full drop-shadow-2xl" />
 
-              <h1 className="font-bold text-xl">{item.category}</h1>
+              <h1 className="font-bold text-xl capitalize">{item.category}</h1>
               <p className="text-sm  font-semibold">{item.description}</p>
               <p className="text-sm  font-semibold">{item.supports}</p>
               <p className="text-sm font-semibold">

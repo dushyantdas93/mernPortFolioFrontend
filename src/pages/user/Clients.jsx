@@ -52,39 +52,43 @@ const Clients = () => {
       </div>
 
       <div className="w-full flex flex-wrap relative  items-center justify-center">
-       {slide == 0 ? <Arrowbtn
+       {/* {slide == 0 ? <Arrowbtn
           text={"<"}
           className={"left-0"}
           onClick={() => setslide(slide === 0 ? card.length - 1 : slide - 1)}
-        /> : ''}
-        {card?.map((item, idx) => {
-          return (
-            <div
-              key={idx}
-              className={`${
-                slide == idx ? "flex" : " hidden "
-              }  w-full  flex-col gap-2  items-center px-6 py-5  relative`}
-            >
-              {auth?.token ? (
-                <EditDelete
-                  url={"updateClientReview"} item={item}
-                  className={"absolute top-4 -right-32 lg:-right-96"}
-                />
-              ) : (
-                ""
-              )}
-              <img
-                src={item?.image !== null ? item.image : avatar}
-                className="rounded-full size-20 drop-shadow-2xl"
-              />
-              <h1 className="font-bold text-lg">{item.title}</h1>
-              <p className="">{item.description}</p>
-              <div className="w-full text-center border border-gray-300 rounded-lg py-3 flex items-center h-32 lg:h-20 lg:w-2/4 mt-4 p-3  lg:p-6 shadow-xl">
-                <p>{item.subdescription}</p>
-              </div>
-            </div>
-          );
-        })}
+        /> : ''} */}
+    {card?.map((item, idx) => {
+  // Set the direction of the animation based on the slide index
+  const animationClass = slide == idx ? "animate-slideIn" : slide > idx ? "animate-slideRight" : "animate-slideLeft";
+
+  return (
+    <div
+      key={idx}
+      className={`${
+        slide == idx ? "flex" : "hidden"
+      } w-full flex-col gap-2  items-center px-6 py-5 relative ${animationClass}`}
+    >
+      {auth?.token ? (
+        <EditDelete
+          url={"updateClientReview"} item={item}
+          className={"absolute top-4 -right-32 lg:-right-96"}
+        />
+      ) : (
+        ""
+      )}
+      <img
+        src={item?.image !== null ? item.image : avatar}
+        className="rounded-full size-20 drop-shadow-2xl"
+      />
+      <h1 className="font-bold text-lg">{item.title}</h1>
+      <p className="">{item.description}</p>
+      <div className="w-full text-center border border-gray-300 rounded-lg py-3 flex justify-center items-center h-32 lg:h-20 lg:w-2/4 mt-4 p-3 lg:p-6 shadow-xl">
+        <p className="text-center">{item.subdescription}</p>
+      </div>
+    </div>
+  );
+})}
+
         <div className="flex absolute bottom-0   gap-2 items-center  ">
           {card.map((_, idx) => {
             return (
@@ -97,11 +101,11 @@ const Clients = () => {
             );
           })}
         </div>
-        {slide == 0 ? <Arrowbtn
+        {/* {slide == 0 ? <Arrowbtn
           text={">"}
           className={"right-0 cursor-pointer"}
           onClick={() => setslide(slide === card.length - 1 ? 0 : slide + 1)}
-        /> : ''}
+        /> : ''} */}
       </div>
 
       <div className="w-full  flex items-center justify-center flex-wrap  gap-5">

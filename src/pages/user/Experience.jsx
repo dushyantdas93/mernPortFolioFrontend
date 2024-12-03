@@ -42,10 +42,12 @@ const Experience = () => {
                 <div key={idx} className="w-full p-2 relative ">
                   <div className=" w-full flex  items-center gap-6 relative  justify-between">
                     <FaGraduationCap size={24} />
-                    <h1>
+                   
+                    <h1 className="flex gap-10">
                       {item?.isPresent ? "Present" : item?.yearOfCompletion}{" "}
-                      {item?.percentage}
+                      
                     </h1>
+                    <h1> {item?.percentage}%</h1>
                     {auth?.token ? (
                       <EditDelete url={"updateCompletion"} item={item} />
                     ) : (

@@ -94,7 +94,7 @@ const uploadImage = async(file)=>{
     <div
       className={`${
         open ? " fixed " : "hidden "
-      }   flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10`}
+      }   flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 `}
     >
      
       <ClosePage  />

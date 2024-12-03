@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const ClosePage = ({onClick}) => { 
   const navigate = useNavigate()
   return (
-    <div className='absolute top-4 right-4  ' onClick={onClick}>
-<IoCloseCircleSharp className='size-10 text-white' onClick={()=>{
+    <div className='absolute top-4 right-4 ' onClick={onClick}>
+<IoCloseCircleSharp className='size-10 text-black lg:text-white' onClick={()=>{
 
   navigate(-1)
   }}/>

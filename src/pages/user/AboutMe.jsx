@@ -52,7 +52,15 @@ const AboutMe = () => {
  
 
   return (
-    <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 text-gray-600 ">
+    <div className=" w-full lg:w-4/6 relative  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 text-gray-600 ">
+       {auth?.token ? (
+              <EditDelete
+                url={"updateAboutMe"} item={card[0]}
+                className={"absolute top-2 left-0"}
+              />
+            ) : (
+              ""
+            )}
       <div className="flex   justify-between items-center  ">
         <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 flex relative text-gray-600">
           <img src={bg} alt="" className="absolute -left-5  " /> About Me
@@ -66,18 +74,9 @@ const AboutMe = () => {
           <img
             src={favicon}
             alt=""
-            className="size-32 drop-shadow-2xl rounded-full"
+            className="size-32 drop-shadow-2xl rounded-full hidden"
           />
           <div className="w-[90%] lg:w-[70%] border border-gray-300 flex flex-col lg:flex-row rounded-lg px-6 h-auto lg:gap-5 shadow- ralative">
-            {auth?.token ? (
-              <EditDelete
-                url={"updateAboutMe"} item={card[0]}
-                className={"absolute top-2 left-64 lg:left-0"}
-              />
-            ) : (
-              ""
-            )}
-
             <div className="w-full lg:w-1/2 py-6 flex flex-col gap-5 ">
               <p className="">{card[0]?.description}</p>
               {/* <button  className="bg-red-500  px-2 w-40 py-1 rounded-full font-semibold lg:text-lg text-white">
@@ -126,7 +125,7 @@ const AboutMe = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap text-center items-center justify-around w-full lg:p-10 gap-4">
+        <div className="flex flex-wrap text-center items-center justify-around w-full pt-6 lg:p-10 gap-4">
           {[
             { title: "Projects complete", count: card[0]?.completedProjects },
             { title: "Projects ongoing", count: card[0]?.ongoingProjects },

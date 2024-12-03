@@ -42,7 +42,7 @@ const EditDelete = ({url,item,className}) => {
 
   return (
     <div
-      className={`relative inline-block text-left  ${className}`}
+      className={`relative inline-block text-left z-10 ${className}`}
       ref={dropdownRef}
     >
       {/* Button to toggle dropdown */}
@@ -56,7 +56,7 @@ const EditDelete = ({url,item,className}) => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ">
+        <div className="absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ">
           <div className="py-1">
             {/* Edit Option */}
             <h1
