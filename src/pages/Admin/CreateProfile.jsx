@@ -75,20 +75,21 @@ const uploadImage = async(file)=>{
     alert("Form submitted successfully!");
     try {
       const response = await axios.put(`${host}/auth/updateProfile/${auth?.user._id}`, {...values,image:url});
-      // console.log(response);
-      navigate(-1)
+      console.log(response);
       setAuth(prevAuth => ({
         ...prevAuth, // Preserve the existing properties in auth
         user: response.data.user // Update only the user field
-    }));
-
-    toast.message("profile update succesfully")
+      }));
+      
+      toast("profile update succesfully")
+      navigate(-1)
 
 
     
     // navigate(-1)
     } catch (error) {
-      console.error("Error updating user:", error);
+      toast.error("Error updating user:")
+      console.log("Error updating user:", error);
     }
   };
  

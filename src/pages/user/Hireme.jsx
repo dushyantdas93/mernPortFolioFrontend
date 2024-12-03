@@ -81,10 +81,10 @@ const Hireme = () => {
           className="size-32 drop-shadow-2xl rounded-full"
         />
         <h1 className="font-bold text-2xl lg:text-4xl text-gray-600">
-          {!auth?.token ? auth?.user?.name : "Dushyant Das Manikpuri"}
+          {auth?.token ? auth?.user?.name : "Dushyant Das Manikpuri"}
     
         </h1>
-        <h3 className="text-md lg:text-lg ">I'm Frontend Developer</h3>
+        <h3 className="text-md lg:text-lg ">I'm MERN Stack Developer | Bachelor of Technology(CSE)</h3>
         <div className="flex items-center justify-center  w-1/2  gap-4 lg:gap-6 ">
           {icons.map((Icon, index) => (
             <Link to={Icon.link} key={index} target="_blank">
@@ -99,15 +99,17 @@ const Hireme = () => {
           ))}
         </div>
         <button
-          className="bg-red-500  px-4 py-1 rounded-full font-semibold lg:text-xl lg:px-6 lg:py-2 text-white"
-          onClick={() => {
-            auth?.token
-              ? navigate(`/admin/updateProfile/${auth?.user?._id}`)
-              : navigate("/");
-          }}
-        >
-          {!auth?.token ? " Hire me" : "Update"}
-        </button>
+  className="bg-red-500 px-4 py-1 rounded-full font-semibold lg:text-xl lg:px-6 lg:py-2 text-white"
+  onClick={() => {
+    if (!auth?.token) {
+      window.location.href = "mailto:dushyantmanikpuri072@gmail.com";
+    } else {
+      navigate(`/admin/updateProfile/${auth?.user?._id}`);
+    }
+  }}
+>
+  {!auth?.token ? "Hire me" : "Update"}
+</button>
       </div>
       {/* <div className="flex flex-col items-center">
         <h1 className="text-lg font-semibold pt-4">Scroll down</h1>
