@@ -10,23 +10,19 @@ import { Link } from "react-router-dom";
 
 const LatestPost = () => {
   const [auth, setAuth] = useAuth();
-  const [open,setOpen] = useState(false)
-
-
+  const [open, setOpen] = useState(false);
 
   const [card, setCard] = useState([]);
-  
-useEffect(() => {
-  (async () => {
-    const { data } = await UseGet("updatePost/get");
-    console.log(data?.getAll)
-    setCard(data?.getAll);
-  })();
 
-  console.log(card);
-}, []);
-  
+  useEffect(() => {
+    (async () => {
+      const { data } = await UseGet("updatePost/get");
+      // console.log(data?.getAll)
+      setCard(data?.getAll);
+    })();
 
+    // console.log(card);
+  }, []);
 
   return (
     <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 py-6">
@@ -35,39 +31,43 @@ useEffect(() => {
           <img src={bg} alt="" className="absolute -left-2  lg:-left-5 " />
           Latest Posts
         </h1>
-        {auth?.token ? <Button onClick={()=>setOpen(true)} /> : ""}
+        {auth?.token ? <Button onClick={() => setOpen(true)} /> : ""}
       </div>
 
       <div className="w-full  flex flex-wrap gap-4 justify-around relative">
-        {open ? <CreatePost setOpen={setOpen}/> : ""}
+        {open ? <CreatePost setOpen={setOpen} /> : ""}
         {card?.map((item, idx) => {
           return (
-            <Link key={idx} >
-              <div className="relative w-80 lg:w-72 rounded-lg border border-gray-300  flex flex-col items-center justify-center text-start  overflow-hidden shadow-lg">
-                {auth?.token ? (
-                  <EditDelete
-                    url={"updatePost"} item={item}
-                    className={"absolute top-4 -right-24"}
-                  />
-                ) : (
-                  ""
-                )}
-                <div className="bg-red-500  absolute -top-1 rounded-lg left-1 px-3 py-2 text-white">
-                  <h1>Review </h1>
-                </div>
-                <img
-                  src={!item?.image ? item?.image : client5}
-                  alt=""
-                  className="size-42"
+            <div
+              key={idx}
+              className="relative w-80 lg:w-72 rounded-lg border border-gray-300  flex flex-col items-center justify-center text-start  overflow-hidden shadow-lg"
+            >
+              {auth?.token ? (
+                <EditDelete
+                  url={"updatePost"}
+                  item={item}
+                  className={"absolute top-4 -right-24"}
                 />
-                <div className=" bg-gray-200 px-2 w-full h-20 flex flex-col justify-between">
+              ) : (
+                ""
+              )}
+              <div className="bg-red-500  absolute -top-1 rounded-lg left-1 px-3 py-2 text-white">
+                <h1>Review </h1>
+              </div>
+              <img
+                src={item?.image == null ? item?.image : client5}
+                alt=""
+                className="size-42"
+              />
+              <div className=" bg-gray-200 px-2 w-full h-20 flex flex-col justify-between">
+                <Link to={item.link}>
                   <h1 className="font-semibold text-lg">
                     {item.imageDescription}
                   </h1>
-                  <p className="text-sm">{item.date}</p>
-                </div>
+                </Link>
+                <p className="text-sm">{item.date}</p>
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>

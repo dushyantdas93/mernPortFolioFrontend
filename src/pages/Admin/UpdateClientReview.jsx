@@ -47,7 +47,7 @@ const UpdateClientReview = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("Form values:", { ...values, image: url });
+      // console.log("Form values:", { ...values, image: url });
       UseUpdate(location, { ...values, image: url });
     },
   });

@@ -13,7 +13,7 @@ const Messages = () => {
     
     (async()=>{
       const message = await UseGet("message/getAll")
-      console.log("message.js",message)
+      // console.log("message.js",message)
       setData(message?.data?.data||[]);
     })();
    

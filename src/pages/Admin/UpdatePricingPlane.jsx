@@ -43,7 +43,7 @@ const UpdatePricingPlan = ({ setOpen }) => {
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Values:", values);
+    // console.log("Form Values:", values);
     alert("Pricing plan updated successfully!");
      UseUpdate(location, { ...values, image: url });
   };

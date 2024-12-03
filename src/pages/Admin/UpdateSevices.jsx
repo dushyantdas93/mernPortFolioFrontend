@@ -22,7 +22,7 @@ const UpdateServices = () => {
   // console.log("location : ",location.pathname)
 
 
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(state.img);
   const uploadImage = async(file)=>{
     try {
       const imageUrl = await saveImage(file);
@@ -68,7 +68,7 @@ const UpdateServices = () => {
   // Handle form submission
   const handleSubmit = async (values) => {
     // UsePost("updateServices/create",  {...values,img:url});
-    console.log("Form Values:", {...values,image:url});
+    // console.log("Form Values:", {...values,image:url});
 UseUpdate(location,{...values,image:url})
 
   };

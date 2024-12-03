@@ -43,7 +43,7 @@ const AboutMe = () => {
       
     })();
     
-     console.log(card[0]?.resume)
+    //  console.log(card[0]?.resume)
   }, []);
 
  

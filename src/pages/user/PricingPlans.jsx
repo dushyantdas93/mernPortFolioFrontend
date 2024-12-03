@@ -15,11 +15,11 @@ const PricingPlans = () => {
   useEffect(() => {
     (async () => {
       const { data } = await UseGet("updatePricingPlan/get");
-      console.log(data?.getAll)
+      // console.log(data?.getAll)
       setCard(data?.getAll);
     })();
 
-    console.log(card);
+    // console.log(card);
   }, []);
 
 
@@ -61,7 +61,7 @@ const PricingPlans = () => {
               >
                 Recommonded
               </h1>
-              <img src={!item.image ? item.image : client5} alt="" className="size-42 drop-shadow-2xl" />
+              <img src={item.image ? item.image : client5} alt="" className="size-14 rounded-full drop-shadow-2xl" />
 
               <h1 className="font-bold text-xl">{item.category}</h1>
               <p className="text-sm  font-semibold">{item.description}</p>

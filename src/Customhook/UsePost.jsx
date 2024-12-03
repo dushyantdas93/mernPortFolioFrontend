@@ -4,7 +4,7 @@ import { host } from "../utils/constant";
 // import { useNavigate } from "react-router-dom";
 
 export const UsePost = async (url, values) => {
-  console.log("host is ", host); // Debugging host
+  // console.log("host is ", host); // Debugging host
 
   try {
     const res = await axios.post(`${host}/admin/${url}`, values);

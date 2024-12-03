@@ -13,7 +13,7 @@ const Crousel = () => {
   ];
 
   const [slide, setslide] = useState(0);
-  console.log(slide);
+  // console.log(slide);
 
   setTimeout(() => {
     setslide(slide === arr1.length - 1 ? 0 : slide + 1);

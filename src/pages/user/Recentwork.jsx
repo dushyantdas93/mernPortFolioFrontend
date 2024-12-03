@@ -22,7 +22,7 @@ const Recentwork = () => {
       setCard(data?.getAll);
     })();
 
-    console.log(card)
+    // console.log(card)
   }, []);
 
 
@@ -98,7 +98,7 @@ const [open,setOpen] =useState(false)
             {/* Image with blur effect on hover */}
             <div className="relative w-80  lg:w-72">
               <img
-                src={!item?.screenshot ? item?.screenshot : client5}
+                src={item?.screenshot ? item?.screenshot : client5}
                 alt={item.heading}
                 className=" rounded-lg w-full h-full object-cover transform transition duration-500 ease-in-out group-hover:blur-xm"
               />

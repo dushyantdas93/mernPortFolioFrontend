@@ -27,7 +27,7 @@ const GetInTouch = () => {
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
       // Handle form submission
-      console.log("Form data", values);
+      // console.log("Form data", values);
 
       // Call custom hook to send form data
       UsePost("message", values);

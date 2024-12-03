@@ -64,8 +64,7 @@ const updateAboutMe = () => {
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Submitted:",        {...values,resume:url}
-);
+    // console.log("Form Submitted:",        {...values,resume:url});
     alert("Form submitted successfully!");
 
         UseUpdate(location, { ...values, resume: url });

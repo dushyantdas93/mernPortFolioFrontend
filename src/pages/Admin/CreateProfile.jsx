@@ -71,11 +71,11 @@ const uploadImage = async(file)=>{
 
   // Handle form submission
   const handleSubmit = async(values) => {
-    console.log("Form Submitted:", values);
+    // console.log("Form Submitted:", values);
     alert("Form submitted successfully!");
     try {
       const response = await axios.put(`${host}/auth/updateProfile/${auth?.user._id}`, {...values,image:url});
-      console.log(response);
+      // console.log(response);
       setAuth(prevAuth => ({
         ...prevAuth, // Preserve the existing properties in auth
         user: response.data.user // Update only the user field

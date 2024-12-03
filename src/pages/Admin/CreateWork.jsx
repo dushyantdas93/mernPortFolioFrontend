@@ -48,7 +48,7 @@ const CreateWork = ({setOpen}) => {
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Values:", values);
+    // console.log("Form Values:", values);
     alert("Form submitted successfully!");
     UsePost("updateWork/create",  {...values,screenshot:url});
 

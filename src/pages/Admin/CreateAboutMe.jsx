@@ -65,7 +65,7 @@ const CreateAboutMe = ({setOpen}) => {
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Submitted:", values);
+    // console.log("Form Submitted:", values);
     alert("Form submitted successfully!");
     UsePost("updateAboutMe/create",  {...values,resume:url});
   };

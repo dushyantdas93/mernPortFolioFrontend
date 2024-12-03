@@ -38,6 +38,7 @@ const EditDelete = ({url,item,className}) => {
  deleteItem(itemId,url);
   };
   
+  // console.log(first)
 
   return (
     <div
@@ -62,6 +63,7 @@ const EditDelete = ({url,item,className}) => {
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               onClick={() => {
                 navigate(`/admin/${url}/${item?._id}`, { state: item });
+                console.log("clickc on this sfjsdfsj")
               }}
             >
               Edit

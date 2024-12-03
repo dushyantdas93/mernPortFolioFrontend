@@ -32,7 +32,7 @@ const CompletionForm = () => {
 
   // Handle form submission
   const handleSubmit = (values, { resetForm }) => {
-    console.log("Form Values:", values);
+    // console.log("Form Values:", values);
 
     UseUpdate(location,values)
 

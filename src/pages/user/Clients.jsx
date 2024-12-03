@@ -24,11 +24,11 @@ const Clients = () => {
  useEffect(() => {
    (async () => {
      const { data } = await UseGet("updateClientReview/get");
-     console.log(data?.getAll);
+    //  console.log(data?.getAll);
      setCard(data?.getAll);
    })();
 
-   console.log(card);
+  //  console.log(card);
  }, [])
   
   
@@ -74,8 +74,8 @@ const Clients = () => {
                 ""
               )}
               <img
-                src={!item.image ? item.image : avatar}
-                className="drop-shadow-2xl"
+                src={item?.image !== null ? item.image : avatar}
+                className="rounded-full size-20 drop-shadow-2xl"
               />
               <h1 className="font-bold text-lg">{item.title}</h1>
               <p className="">{item.description}</p>

@@ -43,7 +43,7 @@ const UpdateWork = () => {
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Values:", { ...values, screenshot: url });
+    // console.log("Form Values:", { ...values, screenshot: url });
     alert("Form submitted successfully!");
     UseUpdate(location, { ...values, screenshot: url });
   };

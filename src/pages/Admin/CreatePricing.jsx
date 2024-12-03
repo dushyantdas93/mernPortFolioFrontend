@@ -44,7 +44,7 @@ const CreatePricing = ({ setOpen }) => {
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Values:", values);
+    // console.log("Form Values:", values);
     alert("Pricing plan updated successfully!");
      UsePost("updatePricingPlan/create",  {...values,image:url});
   };

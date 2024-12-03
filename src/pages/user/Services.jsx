@@ -55,18 +55,21 @@ const Services = () => {
               key={idx}
               className="size-80  lg:size-72 relative rounded-lg border-gray-300 flex flex-col items-center justify-center gap-3 shadow-xl text-center bg-blue-400 px-6 hover:-translate-y-4 hover:scale-105 transform transition-transform duration-300 ease-out"
             >
-
-          
-         
-                {" "}
-                {auth?.token ? (
-                  <EditDelete url={'updateServices'} item={item}  className={"absolute top-0 -right-28"} />
-                ) : (
-                  ""
-                )}
-          
-
-              <img src={item?.img !== null  ? item?.img :  client5} alt="" className={`${item?.img !== null  ? "size-20 rounded-full" :  ""}`} />
+              {" "}
+              {auth?.token ? (
+                <EditDelete
+                  url={"updateServices"}
+                  item={item}
+                  className={"absolute top-0 -right-28"}
+                />
+              ) : (
+                ""
+              )}
+              <img
+                src={item?.img !== null ? item?.img : client5}
+                alt=""
+                className={`${item?.img == null ? "" : "size-20 rounded-full"}`}
+              />
               <h1 className="font-bold text-lg">{item.name}</h1>
               <p className="">{item.description}</p>
             </div>

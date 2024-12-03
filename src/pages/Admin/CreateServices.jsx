@@ -50,7 +50,7 @@ const CreateServices = ({className,setOpen}) => {
   // Handle form submission
   const handleSubmit = async (values) => {
     UsePost("updateServices/create",  {...values,img:url});
-    console.log("Form Values:", values);
+    // console.log("Form Values:", values);
   };
 
   return (

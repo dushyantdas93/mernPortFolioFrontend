@@ -28,7 +28,7 @@ const Reset = () => {
 
   // Form Submission Handler
   const handleSubmit = (values) => {
-    console.log("Form Submitted:", values);
+    // console.log("Form Submitted:", values);
     // Implement API calls or logic here
   };
 

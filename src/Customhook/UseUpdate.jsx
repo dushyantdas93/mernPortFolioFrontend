@@ -5,10 +5,10 @@ import { host } from "../utils/constant";
 export const UseUpdate = async (location, values) => {
   const url = location?.pathname;
 
-  console.log(host, url);
+  // console.log(host, url);
   try {
     const response = await axios.put(`${host}${url}`, values);
-    console.log(response);
+    // console.log(response);
 
     // Show success toast
     toast.success("Update successful!");
