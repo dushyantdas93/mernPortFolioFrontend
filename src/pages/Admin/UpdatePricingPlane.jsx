@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
 
+import { useLocation, useParams } from "react-router-dom";
+import { saveImage } from "../../utils/uploadToCloudinary";
+import { UseUpdate } from "../../Customhook/UseUpdate";
+import ClosePage from "../../components/ClosePage";
+// import UseUpdate from "../../Customhook/UseUpdate";
+
 const UpdatePricingPlan = ({ setOpen }) => {
+  const location = useLocation();
+  const { serviceId } = useParams();
+  const { state } = location;
+
+  const [url, setUrl] = useState(state?.image);
+
+  const uploadImage = async (file) => {
+    try {
+      const imageUrl = await saveImage(file);
+
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+      // {...values,image:url}
+      // UseUpdate(location, { ...values, image: url });
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ", error);
+    }
+  };
+
   // Validation Schema
   const validationSchema = Yup.object({
     category: Yup.string().required("Category is required"),
@@ -12,30 +38,21 @@ const UpdatePricingPlan = ({ setOpen }) => {
       .positive("Price must be a positive number")
       .required("Price is required"),
     supports: Yup.string().required("Supports field is required"),
-    image: Yup.mixed()
-      .required("Image is required")
-      .test(
-        "fileType",
-        "Only image files are allowed (jpg, jpeg, png)",
-        (value) =>
-          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-      )
-      .test(
-        "fileSize",
-        "Image size must not exceed 2MB",
-        (value) => value && value.size <= 2 * 1024 * 1024
-      ),
+    image: Yup.string(),
   });
 
   // Handle form submission
   const handleSubmit = (values) => {
     console.log("Form Values:", values);
     alert("Pricing plan updated successfully!");
+     UseUpdate(location, { ...values, image: url });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen absolute top-10 right-10 z-10">
-      <CloseModal setOpen={setOpen} />
+    <div
+      className={`flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10`}
+    >
+      <ClosePage />
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Update Pricing Plan
@@ -43,11 +60,11 @@ const UpdatePricingPlan = ({ setOpen }) => {
 
         <Formik
           initialValues={{
-            category: "",
-            description: "",
-            price: "",
-            supports: "",
-            image: null,
+            category: state.category,
+            description: state?.description,
+            price: state?.price,
+            supports: state?.supports,
+            image: state?.image,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}

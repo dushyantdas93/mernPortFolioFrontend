@@ -11,7 +11,7 @@ export const useDelete = () => {
     try {
     
       const res = await axios.delete(
-        `${host}/${url}/delete/${itemId}`
+        `${host}/admin/${url}/delete/${itemId}`
       );
 
       if (res && res.data.success) {

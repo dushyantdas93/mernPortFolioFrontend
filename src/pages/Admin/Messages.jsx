@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { UseGet } from "../../Customhook/UseGet";
+import Button from "../../components/ClosePage"
 
 const Messages = () => {
 
@@ -22,34 +23,6 @@ const Messages = () => {
 
 
 
-  // Sample data
-  // const data = [
-  //   {
-  //     sno: 1,
-  //     name: "John Doe",
-  //     email: "john@example.com",
-  //     subject: "Inquiry",
-  //     message: "I would like to know more about your services.",
-  //     date: new Date().toLocaleDateString(),
-  //   },
-  //   {
-  //     sno: 2,
-  //     name: "Jane Smith",
-  //     email: "jane@example.com",
-  //     subject: "Support",
-  //     message: "I need help with my account.",
-  //     date: new Date().toLocaleDateString(),
-  //   },
-  //   {
-  //     sno: 3,
-  //     name: "Samuel Jackson",
-  //     email: "samuel@example.com",
-  //     subject: "Feedback",
-  //     message: "Great experience with your platform!",
-  //     date: new Date().toLocaleDateString(),
-  //   },
-  // ];
-
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full table-auto border-collapse">
@@ -66,7 +39,9 @@ const Messages = () => {
         <tbody>
           {data?.map((row,idx) => (
             <tr key={row.sno}>
-              <td className="border px-4 py-2">{idx + 1}</td>
+              <td className="border px-4 py-2 flex gap-2 relative"> {idx + 1}
+               
+              </td>
               <td className="border px-4 py-2">{row.fullname}</td>
               <td className="border px-4 py-2">{row.email}</td>
               <td className="border px-4 py-2">{row.subject}</td>

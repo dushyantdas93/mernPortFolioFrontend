@@ -27,10 +27,11 @@ const CreateProfile = () => {
 const uploadImage = async(file)=>{
   try {
     const imageUrl = await saveImage(file);
-    
+
     // const [url, setUrl] = useState('');
     // onChange={(event)=>uploadImage(event.target.files[0])}
     // {...values,image:url}
+    // UseUpdate(location, { ...values, image: url });
     setUrl(imageUrl);
   } catch (error) {
     console.log("Error while uploading image to cloudinary: ",error);
@@ -93,8 +94,9 @@ const uploadImage = async(file)=>{
     <div
       className={`${
         open ? " fixed " : "hidden "
-      }   flex flex-col items-center justify-center min-h-screen bg-gray-100 relative`}
+      }   flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10`}
     >
+     
       <ClosePage  />
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">

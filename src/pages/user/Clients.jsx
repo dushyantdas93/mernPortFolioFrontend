@@ -41,7 +41,7 @@ const Clients = () => {
   const [open,setOpen] = useState(false)
 
   return (
-    <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 py-6  relative">
+    <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 py-6 ">
       {open ? <CreateClientReview setOpen={setOpen}/> : ""}
       <div className="flex justify-between items-center">
         <h1 className="font-bold text-2xl lg:text-4xl py-2 lg:py-10 px-6 lg:px-0 relative">

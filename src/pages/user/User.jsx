@@ -16,7 +16,7 @@ import { FaArrowUpLong } from 'react-icons/fa6';
 const User = () => {
     const [menu, setMenu] = useState(false); // Handle menu state for mobile
   return (
-    <div>
+    <div className=" bg-gray-200 text-gray-600">
       <Navbar menu={menu} setMenu={setMenu} />
       <Menubar menu={menu} setMenu={setMenu} />
       <Link

@@ -54,14 +54,13 @@ const CreateServices = ({className,setOpen}) => {
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center min-h-screen   ${className}`}>
+    <div className="flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10">
       <CloseModal setOpen={setOpen} />
-      <div className="w-full max-w-lg p-6  rounded-lg shadow-lg bg-gray-300 z-10">
+      <div className="w-full max-w-lg p-6  rounded-lg shadow-lg bg-white z-10">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Create Services
         </h2>
 
-       
         <Formik
           initialValues={{
             img: null,
@@ -83,7 +82,7 @@ const CreateServices = ({className,setOpen}) => {
                   type="file"
                   id="img"
                   accept="image/*"
-                  onChange={(event)=>uploadImage(event.target.files[0])}
+                  onChange={(event) => uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage
@@ -143,8 +142,8 @@ const CreateServices = ({className,setOpen}) => {
                   className="w-full px-4 py-2 border rounded-lg"
                 >
                   <option value="">Select an option</option>
-  <option value={true}>Yes</option>
-  <option value={false}>No</option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </Field>
                 <ErrorMessage
                   name="recommended"

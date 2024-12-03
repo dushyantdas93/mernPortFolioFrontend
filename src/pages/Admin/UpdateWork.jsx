@@ -1,48 +1,68 @@
 
 
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ClosePage from "../../components/ClosePage";
+import { saveImage } from "../../utils/uploadToCloudinary";
+import { useLocation, useParams } from "react-router-dom";
+import { UseUpdate } from "../../Customhook/UseUpdate";
 
 const UpdateWork = () => {
+
+   const location = useLocation();
+   const { serviceId } = useParams();
+   const { state } = location;
+
+   const [url, setUrl] = useState(state?.screenshot);
+
+   const uploadImage = async (file) => {
+     try {
+       const imageUrl = await saveImage(file);
+
+       // const [url, setUrl] = useState('');
+       // onChange={(event)=>uploadImage(event.target.files[0])}
+       // {...values,image:url}
+       // UseUpdate(location, { ...values, image: url });
+       setUrl(imageUrl);
+     } catch (error) {
+       console.log("Error while uploading image to cloudinary: ", error);
+     }
+   };
+
   // Validation Schema
   const validationSchema = Yup.object({
-    screenshot: Yup.mixed()
-      .required("Screenshot image is required")
-      .test(
-        "fileType",
-        "Only image files are allowed",
-        (value) => !value || (value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type))
-      ),
+    screenshot: Yup.string()
+      ,
     category: Yup.string().required("Category is required"),
     name: Yup.string()
       .min(3, "Name must be at least 3 characters")
       .required("Name is required"),
-    link: Yup.string()
-      .url("Invalid URL format")
-      .required("Link is required"),
+    link: Yup.string().url("Invalid URL format").required("Link is required"),
   });
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Values:", values);
+    console.log("Form Values:", { ...values, screenshot: url });
     alert("Form submitted successfully!");
+    UseUpdate(location, { ...values, screenshot: url });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative">
-      <ClosePage/>
+    <div
+      className={`flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10`}
+    >
+      <ClosePage />
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Screenshot Form
         </h2>
         <Formik
           initialValues={{
-            screenshot: null,
-            category: "",
-            name: "",
-            link: "",
+            screenshot: state?.screenshot,
+            category: state?.category,
+            name: state?.name,
+            link: state?.link,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -58,9 +78,7 @@ const UpdateWork = () => {
                   type="file"
                   id="screenshot"
                   accept="image/*"
-                  onChange={(event) => {
-                    setFieldValue("screenshot", event.target.files[0]);
-                  }}
+                  onChange={(event) => uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage

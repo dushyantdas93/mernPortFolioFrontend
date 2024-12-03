@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ClosePage from "../../components/ClosePage";
+import {  savePdf } from "../../utils/uploadToCloudinary";
+import { UseUpdate } from "../../Customhook/UseUpdate";
 
 const updateAboutMe = () => {
+
+   const location = useLocation();
+   const { serviceId } = useParams();
+   const { state } = location;
+
+  const [url, setUrl] = useState("");
+
+  const uploadImage = async (file) => {
+    try {
+      const imageUrl = await savePdf(file);
+
+      // const [url, setUrl] = useState('');
+      // onChange={(event)=>uploadImage(event.target.files[0])}
+      // {...values,image:url}
+      setUrl(imageUrl);
+    } catch (error) {
+      console.log("Error while uploading image to cloudinary: ", error);
+    }
+  };
   // Validation Schema
   const validationSchema = Yup.object({
     
-    resume: Yup.mixed()
-      .test(
-        "fileType",
-        "Only PDF files are allowed",
-        (value) => !value || (value && value.type === "application/pdf")
-      )
-      .nullable(),
+    resume: Yup.string()
+    ,
     description: Yup.string()
       .min(20, "Description must be at least 20 characters")
       .required("Description is required"),
@@ -48,30 +64,33 @@ const updateAboutMe = () => {
 
   // Handle form submission
   const handleSubmit = (values) => {
-    console.log("Form Submitted:", values);
+    console.log("Form Submitted:",        {...values,resume:url}
+);
     alert("Form submitted successfully!");
+
+        UseUpdate(location, { ...values, resume: url });
   };
 
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-       <ClosePage />
-      <div className="w-full max-w-lg p-6 bg-[red] rounded-lg shadow-lg  px-10 ">
+    <div className="flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10">
+      <ClosePage />
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg  px-10 ">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           About Me Form
         </h2>
         <Formik
           initialValues={{
-            resume: null,
-            description: "",
-            completedProjects: "",
-            ongoingProjects: "",
-            remeningProjects: "",
-            
-            webPercentage: "",
-            designPercentage: "",
-            animationPercentage: "",
+            resume: state?.resume,
+            description: state?.description,
+            completedProjects: state?.completedProjects,
+            ongoingProjects: state?.ongoingProjects,
+            remeningProjects: state?.remeningProjects,
+
+            webPercentage: state?.webPercentage,
+            designPercentage: state?.designPercentage,
+            animationPercentage: state?.animationPercentage,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -89,9 +108,7 @@ const updateAboutMe = () => {
                   type="file"
                   id="resume"
                   accept=".pdf"
-                  onChange={(event) => {
-                    setFieldValue("resume", event.target.files[0]);
-                  }}
+                  onChange={(event) => uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage
@@ -185,7 +202,6 @@ const updateAboutMe = () => {
               </div>
 
               {/* Availability */}
-             
 
               {/* Web Percentage */}
               <div className="mb-4">

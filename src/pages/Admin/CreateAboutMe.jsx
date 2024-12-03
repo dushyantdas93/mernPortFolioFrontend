@@ -5,6 +5,7 @@ import CloseModal from "../../components/CloseModal";
 import { savePdf } from "../../utils/uploadToCloudinary";
 import { UsePost } from "../../Customhook/UsePost";
 
+
 const CreateAboutMe = ({setOpen}) => {
 
   const [url, setUrl] = useState('');
@@ -70,9 +71,9 @@ const CreateAboutMe = ({setOpen}) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen absolute top-10 right-10 z-10">
-        <CloseModal setOpen={setOpen}/>
-      <div className="w-full max-w-lg p-20  rounded-lg shadow-lg  bg-white">
+    <div className="flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10">
+      <div className="w-full max-w-lg p-10  rounded-lg shadow-lg  bg-white ml-10 lg:ml-32 h">
+        <CloseModal setOpen={setOpen} />
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6 ">
           About Me Form
         </h2>
@@ -83,7 +84,7 @@ const CreateAboutMe = ({setOpen}) => {
             completedProjects: "",
             ongoingProjects: "",
             remeningProjects: "",
-            
+
             webPercentage: "",
             designPercentage: "",
             animationPercentage: "",
@@ -104,7 +105,7 @@ const CreateAboutMe = ({setOpen}) => {
                   type="file"
                   id="resume"
                   accept=".pdf"
-                  onChange={(event)=>uploadImage(event.target.files[0])}
+                  onChange={(event) => uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage
@@ -198,7 +199,6 @@ const CreateAboutMe = ({setOpen}) => {
               </div>
 
               {/* Availability */}
-             
 
               {/* Web Percentage */}
               <div className="mb-4">

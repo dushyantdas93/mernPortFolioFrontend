@@ -8,23 +8,20 @@ import { useAuth } from "../../context/auth";
 import CreateCompletion from "../Admin/CreateCompletion";
 import { UseGet } from "../../Customhook/UseGet";
 
-
 const Experience = () => {
   const [auth, setAuth] = useAuth();
 
+  const [card, setCard] = useState([]);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const { data } = await UseGet("updateCompletion/get");
+      console.log(data?.getAll);
+      setCard(data?.getAll);
+    })();
 
-  const [card,setCard] = useState([])
-  const [open, setOpen] = useState(false)
-    useEffect(() => {
-      (async () => {
-        const { data } = await UseGet("updateCompletion/get");
-        console.log(data?.getAll)
-        setCard(data?.getAll);
-      })();
-
-      // console.log(card)
-    }, []);
-
+    // console.log(card)
+  }, []);
 
   return (
     <div className=" w-full lg:w-4/6  mx-auto  flex  flex-col lg:px-6 justify-around gap-10 py-6">
@@ -36,19 +33,24 @@ const Experience = () => {
         {auth?.token ? <Button onClick={() => setOpen(true)} /> : ""}
       </div>
       <div className="w-full  flex flex-col lg:flex-row gap-4 justify-around px-5 relative">
-        {open ? <CreateCompletion setOpen={setOpen} /> : ""}
+        {open ? <CreateCompletion className={""} setOpen={setOpen} /> : ""}
         <div className="w-full lg:w-1/2 border border-gray-300 rounded-lg px-5 shadow-xl relative">
           {card
-            ?.filter((item) => item.category !== "job")
+            ?.filter((item) => item.category !== "Job")
             .map((item, idx) => {
               return (
                 <div key={idx} className="w-full p-2 relative ">
                   <div className=" w-full flex  items-center gap-6 relative  justify-between">
                     <FaGraduationCap size={24} />
                     <h1>
-                      {item?.isPresent ? "Present" : item?.yearOfCompletion}    {item?.percentage}
+                      {item?.isPresent ? "Present" : item?.yearOfCompletion}{" "}
+                      {item?.percentage}
                     </h1>
-                    {auth?.token ? <EditDelete url={"updateCompletion"} item={item} /> : ""}
+                    {auth?.token ? (
+                      <EditDelete url={"updateCompletion"} item={item} />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="border-l-2 border-gray-300 ml-2  w-full px-8 py-6">
                     <h1 className="text-lg font-semibold">{item?.name}</h1>
@@ -60,7 +62,7 @@ const Experience = () => {
         </div>
         <div className="w-full lg:w-1/2 border border-gray-300 rounded-lg px-5 shadow-xl">
           {card
-            ?.filter((item) => item.category == "job")
+            ?.filter((item) => item.category == "Job")
             .map((item, idx) => {
               return (
                 <div key={idx} className="w-full p-2">

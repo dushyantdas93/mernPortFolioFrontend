@@ -1,8 +1,16 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { UseUpdate } from "../../Customhook/UseUpdate";
+import { useLocation, useParams } from "react-router-dom";
+import ClosePage from "../../components/ClosePage";
 
 const CompletionForm = () => {
+
+ const location = useLocation();
+  const { serviceId } = useParams();
+    const { state } = location;
+  
   // Validation schema using Yup
   const validationSchema = Yup.object({
     yearOfCompletion: Yup.string()
@@ -26,148 +34,153 @@ const CompletionForm = () => {
   const handleSubmit = (values, { resetForm }) => {
     console.log("Form Values:", values);
 
+    UseUpdate(location,values)
+
     // Reset the form after successful submission
     resetForm();
   };
 
   return (
-    <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-        Create Record
-      </h2>
-      <Formik
-        initialValues={{
-          yearOfCompletion: "",
-          isPresent: false,
-          name: "",
-          description: "",
-          percentage: "",
-          category: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form>
-          {/* Year of Completion */}
-          <div className="mb-4">
-            <label htmlFor="yearOfCompletion" className="block text-gray-700">
-              Year of Completion
-            </label>
-            <Field
-              type="text"
-              name="yearOfCompletion"
-              id="yearOfCompletion"
-              className="w-full px-4 py-2 border rounded-lg"
-              placeholder="Enter year of completion"
-            />
-            <ErrorMessage
-              name="yearOfCompletion"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+    <div className="flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10">
+      <ClosePage />
+      <div className="bg-white p-10 rounded-lg ">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Update Education & Job
+        </h2>
+        <Formik
+          initialValues={{
+            yearOfCompletion: state?.yearOfCompletion,
+            isPresent: state?.isPresent,
+            name: state.name,
+            description: state?.description,
+            percentage: state?.percentage,
+            category: state?.category,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <Form>
+            {/* Year of Completion */}
+            <div className="mb-4">
+              <label htmlFor="yearOfCompletion" className="block text-gray-700">
+                Year of Completion
+              </label>
+              <Field
+                type="text"
+                name="yearOfCompletion"
+                id="yearOfCompletion"
+                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="Enter year of completion"
+              />
+              <ErrorMessage
+                name="yearOfCompletion"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
+            </div>
 
-          {/* Is Present */}
-          <div className="mb-4">
-            <label htmlFor="isPresent" className="block text-gray-700">
-              Is Present
-            </label>
-            <Field type="checkbox" name="isPresent" id="isPresent" />
-            <ErrorMessage
-              name="isPresent"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+            {/* Is Present */}
+            <div className="mb-4">
+              <label htmlFor="isPresent" className="block text-gray-700">
+                Is Present
+              </label>
+              <Field type="checkbox" name="isPresent" id="isPresent" />
+              <ErrorMessage
+                name="isPresent"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
+            </div>
 
-          {/* Name */}
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700">
-              Name
-            </label>
-            <Field
-              type="text"
-              name="name"
-              id="name"
-              className="w-full px-4 py-2 border rounded-lg"
-              placeholder="Enter your name"
-            />
-            <ErrorMessage
-              name="name"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+            {/* Name */}
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-700">
+                Name
+              </label>
+              <Field
+                type="text"
+                name="name"
+                id="name"
+                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="Enter your name"
+              />
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
+            </div>
 
-          {/* Description */}
-          <div className="mb-4">
-            <label htmlFor="description" className="block text-gray-700">
-              Description
-            </label>
-            <Field
-              as="textarea"
-              name="description"
-              id="description"
-              className="w-full px-4 py-2 border rounded-lg"
-              placeholder="Enter description"
-            />
-            <ErrorMessage
-              name="description"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+            {/* Description */}
+            <div className="mb-4">
+              <label htmlFor="description" className="block text-gray-700">
+                Description
+              </label>
+              <Field
+                as="textarea"
+                name="description"
+                id="description"
+                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="Enter description"
+              />
+              <ErrorMessage
+                name="description"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
+            </div>
 
-          {/* Percentage */}
-          <div className="mb-4">
-            <label htmlFor="percentage" className="block text-gray-700">
-              Percentage
-            </label>
-            <Field
-              type="number"
-              name="percentage"
-              id="percentage"
-              className="w-full px-4 py-2 border rounded-lg"
-              placeholder="Enter percentage"
-            />
-            <ErrorMessage
-              name="percentage"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+            {/* Percentage */}
+            <div className="mb-4">
+              <label htmlFor="percentage" className="block text-gray-700">
+                Percentage
+              </label>
+              <Field
+                type="number"
+                name="percentage"
+                id="percentage"
+                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="Enter percentage"
+              />
+              <ErrorMessage
+                name="percentage"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
+            </div>
 
-          {/* Category (Dropdown) */}
-          <div className="mb-4">
-            <label htmlFor="category" className="block text-gray-700">
-              Category
-            </label>
-            <Field
-              as="select"
-              name="category"
-              id="category"
-              className="w-full px-4 py-2 border rounded-lg"
+            {/* Category (Dropdown) */}
+            <div className="mb-4">
+              <label htmlFor="category" className="block text-gray-700">
+                Category
+              </label>
+              <Field
+                as="select"
+                name="category"
+                id="category"
+                className="w-full px-4 py-2 border rounded-lg"
+              >
+                <option value="">Select Category</option>
+                <option value="Job">Job</option>
+                <option value="Education">Education</option>
+              </Field>
+              <ErrorMessage
+                name="category"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
             >
-              <option value="">Select Category</option>
-              <option value="Job">Job</option>
-              <option value="Education">Education</option>
-            </Field>
-            <ErrorMessage
-              name="category"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-          >
-            Submit
-          </button>
-        </Form>
-      </Formik>
+              Submit
+            </button>
+          </Form>
+        </Formik>
+      </div>
     </div>
   );
 };

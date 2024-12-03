@@ -42,7 +42,7 @@ useEffect(() => {
         {open ? <CreatePost setOpen={setOpen}/> : ""}
         {card?.map((item, idx) => {
           return (
-            <Link key={idx} to={item?.link}>
+            <Link key={idx} >
               <div className="relative w-80 lg:w-72 rounded-lg border border-gray-300  flex flex-col items-center justify-center text-start  overflow-hidden shadow-lg">
                 {auth?.token ? (
                   <EditDelete

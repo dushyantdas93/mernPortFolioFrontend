@@ -17,7 +17,7 @@ const Services = () => {
   useEffect(()=>{
     (async()=>{
       const {data} = await UseGet("updateServices/get")
-      // console.log(data?.getAll)
+      console.log(data?.getAll)
       setCard(data?.getAll)
     })()
 

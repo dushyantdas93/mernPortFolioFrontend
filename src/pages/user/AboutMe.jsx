@@ -59,7 +59,7 @@ const AboutMe = () => {
         </h1>
         {auth?.token ? <Button onClick={() => setOpen(true)} /> : " "}
       </div>
-      <div className="relative">
+      <div className="">
         {open ? <CreateAboutMe setOpen={setOpen} /> : " "}
 
         <div className="flex flex-col lg:flex-row items-center justify-around w-full h-full gap-10 ">

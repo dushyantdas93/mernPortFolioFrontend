@@ -11,7 +11,7 @@ export const UseGet = async (url)=>{
  
     try {
               const res = await axios.get(
-                  `${backend_url}/${url}`
+                  `${backend_url}/admin/${url}`
               );
               if (res && res.data.success) {
                 //   toast.success(res.data.message);

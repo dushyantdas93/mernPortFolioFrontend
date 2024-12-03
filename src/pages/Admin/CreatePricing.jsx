@@ -50,9 +50,9 @@ const CreatePricing = ({ setOpen }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen absolute top-10 right-10 z-10">
+    <div className="flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10">
       <CloseModal setOpen={setOpen} />
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-lg p-10 bg-white rounded-lg shadow-lg ">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Update Pricing Plan
         </h2>
@@ -160,7 +160,7 @@ const CreatePricing = ({ setOpen }) => {
                   id="image"
                   name="image"
                   accept="image/*"
-                  onChange={(event)=>uploadImage(event.target.files[0])}
+                  onChange={(event) => uploadImage(event.target.files[0])}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
                 <ErrorMessage

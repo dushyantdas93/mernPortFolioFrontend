@@ -6,7 +6,7 @@ const Button = ({text="Create",url,className,onClick}) => {
   // console.log(url)
   return (
     <div>
-        <button onClick={onClick} className={`${className}  px-2 py-1 border rounded-lg  font-semibold`} >{text}</button>
+        <button onClick={onClick} className={`${className}  px-3 py-1 shadow-lg rounded-lg   font-semibold`} >{text}</button>
     </div>
   )
 }
