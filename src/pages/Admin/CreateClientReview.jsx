@@ -48,7 +48,10 @@ const CreateClientReview = ({setOpen}) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // console.log("Form values:", values);
-      UsePost("updateClientReview/create",  {...values,image:url});
+     const res =  UsePost("updateClientReview/create",  {...values,image:url});
+      if(res){
+        setOpen(false)
+       }
     },
   });
 

@@ -4,34 +4,29 @@ import * as Yup from "yup";
 import CloseModal from "../../components/CloseModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ClosePage from "../../components/ClosePage";
-import {  savePdf } from "../../utils/uploadToCloudinary";
+import { savePdf } from "../../utils/uploadToCloudinary";
 import { UseUpdate } from "../../Customhook/UseUpdate";
 
-const updateAboutMe = () => {
-
-   const location = useLocation();
-   const { serviceId } = useParams();
-   const { state } = location;
+const UpdateAboutMe = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { serviceId } = useParams();
+  const { state } = location;
 
   const [url, setUrl] = useState("");
 
   const uploadImage = async (file) => {
     try {
       const imageUrl = await savePdf(file);
-
-      // const [url, setUrl] = useState('');
-      // onChange={(event)=>uploadImage(event.target.files[0])}
-      // {...values,image:url}
       setUrl(imageUrl);
     } catch (error) {
       console.log("Error while uploading image to cloudinary: ", error);
     }
   };
+
   // Validation Schema
   const validationSchema = Yup.object({
-    
-    resume: Yup.string()
-    ,
+    resume: Yup.string(),
     description: Yup.string()
       .min(20, "Description must be at least 20 characters")
       .required("Description is required"),
@@ -63,19 +58,25 @@ const updateAboutMe = () => {
   });
 
   // Handle form submission
-  const handleSubmit = (values) => {
-    // console.log("Form Submitted:",        {...values,resume:url});
+  const handleSubmit = async (values) => {
     alert("Form submitted successfully!");
 
-        UseUpdate(location, { ...values, resume: url });
+    try {
+      const res = await UseUpdate(location, { ...values, resume: url });
+      if (res) {
+        // Navigate back to the previous page after successful submission
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error("Error during form submission", error);
+      // Handle error if necessary
+    }
   };
 
-  const navigate = useNavigate()
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen fixed w-full bg-black  bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10">
+    <div className="flex flex-col items-center justify-center min-h-screen fixed w-full bg-black bg-opacity-75 backdrop-blur-sm top-0 right-0 z-10">
       <ClosePage />
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg  px-10 ">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg px-10">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           About Me Form
         </h2>
@@ -86,7 +87,6 @@ const updateAboutMe = () => {
             completedProjects: state?.completedProjects,
             ongoingProjects: state?.ongoingProjects,
             remeningProjects: state?.remeningProjects,
-
             webPercentage: state?.webPercentage,
             designPercentage: state?.designPercentage,
             animationPercentage: state?.animationPercentage,
@@ -96,8 +96,6 @@ const updateAboutMe = () => {
         >
           {({ setFieldValue }) => (
             <Form>
-              {/* Image Upload */}
-
               {/* Resume Upload */}
               <div className="mb-4">
                 <label htmlFor="resume" className="block text-gray-700">
@@ -138,10 +136,7 @@ const updateAboutMe = () => {
 
               {/* Projects Completed */}
               <div className="mb-4">
-                <label
-                  htmlFor="completedProjects"
-                  className="block text-gray-700"
-                >
+                <label htmlFor="completedProjects" className="block text-gray-700">
                   Projects Completed
                 </label>
                 <Field
@@ -160,10 +155,7 @@ const updateAboutMe = () => {
 
               {/* Ongoing Projects */}
               <div className="mb-4">
-                <label
-                  htmlFor="ongoingProjects"
-                  className="block text-gray-700"
-                >
+                <label htmlFor="ongoingProjects" className="block text-gray-700">
                   Ongoing Projects
                 </label>
                 <Field
@@ -179,28 +171,6 @@ const updateAboutMe = () => {
                   className="text-red-500 text-sm mt-1"
                 />
               </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="ongoingProjects"
-                  className="block text-gray-700"
-                >
-                  Remining Projects
-                </label>
-                <Field
-                  type="number"
-                  name="remeningProjects"
-                  id="remeningProjects"
-                  className="w-full px-4 py-2 border rounded-lg"
-                  placeholder="Enter remening projects count"
-                />
-                <ErrorMessage
-                  name="remeningProjects"
-                  component="div"
-                  className="text-red-500 text-sm mt-1"
-                />
-              </div>
-
-              {/* Availability */}
 
               {/* Web Percentage */}
               <div className="mb-4">
@@ -221,50 +191,6 @@ const updateAboutMe = () => {
                 />
               </div>
 
-              {/* Design Percentage */}
-              <div className="mb-4">
-                <label
-                  htmlFor="designPercentage"
-                  className="block text-gray-700"
-                >
-                  Design Skills (%)
-                </label>
-                <Field
-                  type="number"
-                  name="designPercentage"
-                  id="designPercentage"
-                  className="w-full px-4 py-2 border rounded-lg"
-                  placeholder="Enter percentage (0-100)"
-                />
-                <ErrorMessage
-                  name="designPercentage"
-                  component="div"
-                  className="text-red-500 text-sm mt-1"
-                />
-              </div>
-
-              {/* Animation Percentage */}
-              <div className="mb-4">
-                <label
-                  htmlFor="animationPercentage"
-                  className="block text-gray-700"
-                >
-                  Animation Skills (%)
-                </label>
-                <Field
-                  type="number"
-                  name="animationPercentage"
-                  id="animationPercentage"
-                  className="w-full px-4 py-2 border rounded-lg"
-                  placeholder="Enter percentage (0-100)"
-                />
-                <ErrorMessage
-                  name="animationPercentage"
-                  component="div"
-                  className="text-red-500 text-sm mt-1"
-                />
-              </div>
-
               {/* Submit Button */}
               <button
                 type="submit"
@@ -280,4 +206,4 @@ const updateAboutMe = () => {
   );
 };
 
-export default updateAboutMe;
+export default UpdateAboutMe;

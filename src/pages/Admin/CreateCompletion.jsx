@@ -28,7 +28,10 @@ const CompletionForm = ({className,setOpen}) => {
   // Handle form submission
   const handleSubmit = (values, { resetForm }) => {
     console.log("Form Values:", values);
- UsePost("updateCompletion/create", values);
+ const res = UsePost("updateCompletion/create", values);
+ if(res){
+  setOpen(false)
+ }
     // Reset the form after successful submission
     resetForm();
   };

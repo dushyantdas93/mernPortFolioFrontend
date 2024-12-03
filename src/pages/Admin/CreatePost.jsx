@@ -49,7 +49,10 @@ const CreatePost = ({ setOpen }) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // console.log("Form values:", values);
-      UsePost("updatePost/create", { ...values, image: url });
+      const res = UsePost("updatePost/create", { ...values, image: url });
+      if(res){
+        setOpen(false)
+       }
     },
   });
 

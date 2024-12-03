@@ -49,7 +49,10 @@ const CreateServices = ({className,setOpen}) => {
 
   // Handle form submission
   const handleSubmit = async (values) => {
-    UsePost("updateServices/create",  {...values,img:url});
+   const res = UsePost("updateServices/create",  {...values,img:url});
+   if(res){
+    setOpen(false)
+   }
     // console.log("Form Values:", values);
   };
 
